@@ -2,7 +2,6 @@
 using EFCoreDataAccess.Data.Repositories;
 using EFCoreDataAccess.Interfaces;
 using EFCoreDataAccess.Models;
-using EFCoreDataAccess.Models.Interface;
 using EFCoreDataAccess.Repository;
 using EFCoreDataAccess.Tests.Infra;
 using Microsoft.Extensions.DependencyInjection;
