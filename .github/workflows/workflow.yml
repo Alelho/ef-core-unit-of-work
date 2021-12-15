@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   build:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: action/checkout@v2
@@ -12,7 +12,7 @@ jobs:
       with:
         dotnet-version: '5.0.x'
     - name: Install dependencies
-        run: dotnet restore
+      run: dotnet restore
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
     - name: Test
