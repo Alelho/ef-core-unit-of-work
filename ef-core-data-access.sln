@@ -15,7 +15,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreDataAccess.Data", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreDataAccess.Models", "src\EFCoreDataAccess.Models\EFCoreDataAccess.Models.csproj", "{0754FC18-29B6-49CB-A39E-FDF7975FE82D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreDataAccess.API", "src\EFCoreDataAccess.API\EFCoreDataAccess.API.csproj", "{3261B80F-42A1-4664-9852-A6A0708BBF80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreDataAccess.API", "src\EFCoreDataAccess.API\EFCoreDataAccess.API.csproj", "{3261B80F-42A1-4664-9852-A6A0708BBF80}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{DA40A2C7-B40B-4EE8-8119-8C16A0445BCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{B51C24FF-4A93-4919-83CE-80D0795F7E9E}"
+	ProjectSection(SolutionItems) = preProject
+		workflow.yml = workflow.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +59,7 @@ Global
 		{7F25316F-3A00-4A30-9293-FF067712340B} = {1892D551-CE07-467B-A74F-D7D71D2879CC}
 		{0754FC18-29B6-49CB-A39E-FDF7975FE82D} = {1892D551-CE07-467B-A74F-D7D71D2879CC}
 		{3261B80F-42A1-4664-9852-A6A0708BBF80} = {1892D551-CE07-467B-A74F-D7D71D2879CC}
+		{B51C24FF-4A93-4919-83CE-80D0795F7E9E} = {DA40A2C7-B40B-4EE8-8119-8C16A0445BCD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13B68281-C37D-4E5B-93ED-3209AE572298}
