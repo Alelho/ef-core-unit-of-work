@@ -14,7 +14,7 @@ namespace EFCoreDataAccess.Tests.Infra
         {
             var services = new ServiceCollection();
 
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;initial Catalog=DataAccessTests;Integrated Security=true";
+            var connectionString = @"Data Source=localhost;initial Catalog=DataAccessTests;Integrated Security=true";
 
             services.AddDbContext<EmployeeDbContext>(options =>
                 options.UseSqlServer(connectionString)
