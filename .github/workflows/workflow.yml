@@ -5,6 +5,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+    sqlserver:
+      image: mcr.microsoft.com/mssql/server:2019-latest
+       env:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "123456"
+      ports:
+        - "1433:1433"
+      options: --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U SA -P 123456" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core SDK
