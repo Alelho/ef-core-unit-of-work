@@ -20,15 +20,14 @@ namespace EFCoreDataAccess.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = @"Data Source=(localdb)\MSSQLLocalDB;initial Catalog=DataAccessTests;Integrated Security=true";
+            var connectionString = @"Server=localhost;Database=DataAccessTests;Uid=root;Pwd=123456;";
 
             services.AddDbContext<EmployeeDbContext>(options =>
-                options.UseSqlServer(connectionString)
-                       .LogTo(msg => Debug.WriteLine(msg), LogLevel.Error)
-                       .EnableSensitiveDataLogging());
+                options.UseMySql(connectionString, serverVersion: ServerVersion.AutoDetect(connectionString))
+                .LogTo(msg => Debug.WriteLine(msg), LogLevel.Error)
+                .EnableSensitiveDataLogging());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -37,7 +36,6 @@ namespace EFCoreDataAccess.API
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -14,12 +14,11 @@ namespace EFCoreDataAccess.Tests.Infra
         {
             var services = new ServiceCollection();
 
-            var connectionString = @"Data Source=localhost;initial Catalog=DataAccessTests;Integrated Security=true";
+            var connectionString = @"Server=localhost;Database=DataAccessTests;Uid=root;Pwd=123456;";
 
             services.AddDbContext<EmployeeDbContext>(options =>
-                options.UseSqlServer(connectionString)
-                       .LogTo(msg => Debug.WriteLine(msg), LogLevel.Error)
-                       .EnableSensitiveDataLogging());
+                options.UseMySql(connectionString, serverVersion: ServerVersion.AutoDetect(connectionString))
+                .LogTo(msg => Debug.WriteLine(msg), LogLevel.Error));
 
             services.AddUnitOfWork<EmployeeDbContext>();
 
