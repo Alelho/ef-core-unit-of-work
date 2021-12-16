@@ -25,4 +25,8 @@ jobs:
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:Exclude="[EFCoreDataAccess.*]*"
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
