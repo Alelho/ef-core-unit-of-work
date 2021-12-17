@@ -25,7 +25,7 @@ jobs:
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore /p:CoverletOutput="/coverage/lcov.info" /p:CollectCoverage=true /p:Exclude="[EFCoreDataAccess.*]*"
+      run: dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutput="./coverage/lcov.info" /p:CoverletOutputFormat=json,lcov /p:Exclude="[EFCoreDataAccess.*]*"
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
