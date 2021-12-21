@@ -16,6 +16,7 @@ namespace EFCoreDataAccess.UnitOfWorkImp
         }
 
         public DbContext DbContext { get; private set; }
+        public IDbContextTransaction Transaction => _transaction;
 
         public TRepository GetRepository<TRepository>() where TRepository : class
         {

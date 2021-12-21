@@ -12,7 +12,7 @@ namespace EFCoreDataAccess.UnitOfWorkImp
             {
                 throw new InvalidOperationException("There is already an active transaction");
             }
-
+            
             _transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }

@@ -62,5 +62,40 @@ namespace EFCoreDataAccess.Tests
                 .Throw<InvalidOperationException>()
                 .WithMessage("The type TRepository should be a class");
         }
+
+        [Fact]
+        public void GetRepository_ShouldReturnAnException_GivenAnAbstractRepository()
+        {
+            // Arrange
+            var uow = _databaseFixture.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            // Act
+            Action act = () => uow.GetRepository<AbstractRepository>();
+
+            // Assert
+            act.Should()
+                .Throw<InvalidOperationException>()
+                .WithMessage("Could not create an object from an abstract class");
+        }
+
+
+        [Fact]
+        public void Dispose_ShouldDispose_GivenAnOpenDbConnection()
+        {
+            // Arrange
+            var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            uow.BeginTransaction();
+
+            // Act
+            uow.Dispose();
+
+            // Assert
+            Action act = () => uow.DbContext.Database.CanConnect();
+
+            act.Should()
+                .Throw<ObjectDisposedException>();
+        }
     }
 }
