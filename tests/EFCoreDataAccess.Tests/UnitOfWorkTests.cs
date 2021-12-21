@@ -6,6 +6,7 @@ using EFCoreDataAccess.Models.Interface;
 using EFCoreDataAccess.Repository;
 using EFCoreDataAccess.Tests.Infra;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Xunit;
@@ -86,16 +87,15 @@ namespace EFCoreDataAccess.Tests
             var scope = _databaseFixture.ServiceProvider.CreateScope();
             var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
 
-            uow.BeginTransaction();
-
             // Act
             uow.Dispose();
 
             // Assert
-            Action act = () => uow.DbContext.Database.CanConnect();
-
-            act.Should()
-                .Throw<ObjectDisposedException>();
+            using (new AssertionScope())
+            {
+                uow.DbContext.Should().BeNull();
+                uow.Transaction.Should().BeNull();
+            }
         }
     }
 }

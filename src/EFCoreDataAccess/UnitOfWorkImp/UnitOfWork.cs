@@ -54,9 +54,11 @@ namespace EFCoreDataAccess.UnitOfWorkImp
         {
             if (_disposed || !disposing) return;
 
-            DbContext?.Dispose();
-
             _transaction?.Dispose();
+            _transaction = null;
+
+            DbContext?.Dispose();
+            DbContext = null;
 
             _disposed = true;
         }
