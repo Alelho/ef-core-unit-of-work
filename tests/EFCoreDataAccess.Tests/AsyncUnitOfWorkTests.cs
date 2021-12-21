@@ -9,8 +9,8 @@ using Xunit;
 
 namespace EFCoreDataAccess.Tests
 {
-    [CollectionDefinition("Database collection")]
-    public class AsyncUnitOfWorkTests : IClassFixture<DatabaseFixture>
+    [Collection("Database collection")]
+    public class AsyncUnitOfWorkTests
     {
         private readonly DatabaseFixture _databaseFixture;
 

@@ -13,8 +13,8 @@ using Xunit;
 
 namespace EFCoreDataAccess.Tests
 {
-    [CollectionDefinition("Database collection")]
-    public class UnitOfWorkTests : IClassFixture<DatabaseFixture>
+    [Collection("Database collection")]
+    public class UnitOfWorkTests
     {
         private readonly DatabaseFixture _databaseFixture;
 
