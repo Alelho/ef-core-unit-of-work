@@ -85,22 +85,24 @@ namespace EFCoreDataAccess.Repository
 
         public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _dbSet.Where(predicate)
+                 .ToList();
         }
 
-        public virtual Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        public async virtual Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbSet.Where(predicate)
+                .ToListAsync(cancellationToken);
         }
 
         public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _dbSet.SingleOrDefault(predicate);
         }
 
-        public virtual Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        public virtual async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbSet.SingleOrDefaultAsync(predicate, cancellationToken);
         }
 
         #region Disposable Members
