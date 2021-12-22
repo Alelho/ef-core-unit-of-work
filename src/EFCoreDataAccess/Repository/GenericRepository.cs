@@ -75,12 +75,12 @@ namespace EFCoreDataAccess.Repository
 
         public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _dbSet.FirstOrDefault(predicate);
         }
 
-        public virtual Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
         }
 
         public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)

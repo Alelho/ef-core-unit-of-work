@@ -79,7 +79,6 @@ namespace EFCoreDataAccess.Tests
                 .WithMessage("Could not create an object from an abstract class");
         }
 
-
         [Fact]
         public void Dispose_ShouldDispose_GivenAnOpenDbConnection()
         {

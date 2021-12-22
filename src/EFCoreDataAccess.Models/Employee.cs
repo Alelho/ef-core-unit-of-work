@@ -20,5 +20,12 @@ namespace EFCoreDataAccess.Models
         public DateTime BirthDate { get; private set; }
         public long CompanyId { get; private set; }
         public Company Company { get; private set; }
+
+        public void SetCompany(long companyId)
+        {
+            if (CompanyId > 0) throw new InvalidOperationException("company registered already");
+
+            CompanyId = companyId;
+        }
     }
 }
