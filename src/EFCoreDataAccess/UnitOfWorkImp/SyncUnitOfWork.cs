@@ -20,7 +20,7 @@ namespace EFCoreDataAccess.UnitOfWorkImp
             {
                 if (_transaction == null)
                 {
-                    throw new InvalidOperationException("There is already an active transaction");
+                    throw new ArgumentNullException(nameof(Transaction));
                 }
 
                 _transaction.Commit();
