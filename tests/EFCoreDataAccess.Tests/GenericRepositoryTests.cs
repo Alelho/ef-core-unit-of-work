@@ -147,5 +147,62 @@ namespace EFCoreDataAccess.Tests
             countRows.Should().BeGreaterThan(0);
             countRowsWhere.Should().Be(expectedCountRows);
         }
+
+        [Fact]
+        public async Task FirstOrDefaultAsync_ShouldReturnTheFirstEntity_GivenTableWithEntities()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var companyRepository = uow.GetGenericRepository<Company>();
+
+            // Act
+            var result = await companyRepository.FirstOrDefaultAsync(c => c.Id > 0);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Id.Should().Be(1);
+        }
+
+        [Fact]
+        public async Task SingleOrDefaultAsync_ShouldReturnAnEntity_GivenValidEntityId()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var companyRepository = uow.GetGenericRepository<Company>();
+            var validEntity = 1;
+            var invalidEntity = long.MaxValue;
+
+            // Act
+            var entity = await companyRepository.SingleOrDefaultAsync(c => c.Id == validEntity);
+            var nullEntity = await companyRepository.SingleOrDefaultAsync(c => c.Id == invalidEntity);
+
+            // Assert
+            entity.Should().NotBeNull();
+            nullEntity.Should().BeNull();
+        }
+
+        [Fact]
+        public void SingleOrDefault_ShouldReturnAnEntity_GivenValidEntityId()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var companyRepository = uow.GetGenericRepository<Company>();
+            var validEntity = 1;
+            var invalidEntity = long.MaxValue;
+
+            // Act
+            var entity = companyRepository.SingleOrDefault(c => c.Id == validEntity);
+            var nullEntity = companyRepository.SingleOrDefault(c => c.Id == invalidEntity);
+
+            // Assert
+            entity.Should().NotBeNull();
+            nullEntity.Should().BeNull();
+        }
     }
 }
