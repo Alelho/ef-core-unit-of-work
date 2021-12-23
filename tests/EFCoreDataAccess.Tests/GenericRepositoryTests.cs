@@ -66,6 +66,86 @@ namespace EFCoreDataAccess.Tests
             await uow.SaveChangesAsync();
 
             // Assert
+            var companiesStored = await companyRepository.SearchAsync(c => listOfCompanies.Select(o => o.Id).Contains(c.Id));
+            listOfCompanies.Should().BeEquivalentTo(companiesStored);
+        }
+
+        [Fact]
+        public void Any_ShouldReturnTrue_GivenAnExistingId()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var companyRepository = uow.GetGenericRepository<Company>();
+
+            var entityId = 1;
+
+            // Act
+            var result = companyRepository.Any(c => c.Id == entityId);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task AnyAsync_ShouldReturnFalse_GivenAnInvalidId()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var companyRepository = uow.GetGenericRepository<Company>();
+
+            var entityId = long.MaxValue;
+
+            // Act
+            var result = await companyRepository.AnyAsync(c => c.Id == entityId);
+
+            // Assert
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Count_ShouldReturnTheTotalOfEntities_GivenTableWithThreeRows()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var companyRepository = uow.GetGenericRepository<Company>();
+
+            var entityId = 1;
+            var expectedCountRows = 1;
+
+            // Act
+            var countRows = companyRepository.Count();
+            var countRowsWhere = companyRepository.Count(c => c.Id == entityId);
+
+            // Assert
+            countRows.Should().BeGreaterThan(0);
+            countRowsWhere.Should().Be(expectedCountRows);
+        }
+
+        [Fact]
+        public async Task CountAsync_ShouldReturnTheTotalOfEntities_GivenTableWithThreeRows()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var companyRepository = uow.GetGenericRepository<Company>();
+
+            var entityId = 1;
+            var expectedCountRows = 1;
+
+            // Act
+            var countRows = await companyRepository.CountAsync();
+            var countRowsWhere = await companyRepository.CountAsync(c => c.Id == entityId);
+
+            // Assert
+            countRows.Should().BeGreaterThan(0);
+            countRowsWhere.Should().Be(expectedCountRows);
         }
     }
 }
