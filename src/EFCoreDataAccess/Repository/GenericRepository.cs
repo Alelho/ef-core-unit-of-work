@@ -119,6 +119,9 @@ namespace EFCoreDataAccess.Repository
         {
             if (_disposed || !disposing) return;
 
+            DbContext?.Dispose();
+            DbContext = null;
+
             _disposed = true;
         }
 

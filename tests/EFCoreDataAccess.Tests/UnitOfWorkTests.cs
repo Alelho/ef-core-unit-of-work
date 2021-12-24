@@ -80,7 +80,7 @@ namespace EFCoreDataAccess.Tests
         }
 
         [Fact]
-        public void Dispose_ShouldDispose_GivenAnOpenDbConnection()
+        public void Dispose_ShouldDispose_GivenValidUnitOfWorkInstance()
         {
             // Arrange
             var scope = _databaseFixture.ServiceProvider.CreateScope();

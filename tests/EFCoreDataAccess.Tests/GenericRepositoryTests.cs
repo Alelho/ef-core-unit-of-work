@@ -4,6 +4,7 @@ using EFCoreDataAccess.Models;
 using EFCoreDataAccess.Tests.Infra;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -203,6 +204,24 @@ namespace EFCoreDataAccess.Tests
             // Assert
             entity.Should().NotBeNull();
             nullEntity.Should().BeNull();
+        }
+
+        [Fact]
+        public void Dispose_ShouldDispose_GivenValidGenericRepositoryInstance()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var companyRepository = uow.GetGenericRepository<Company>();
+
+            Action act = () => companyRepository.Count();
+
+            // Act
+            companyRepository.Dispose();
+
+            // Assert
+            act.Should().Throw<ObjectDisposedException>();
         }
     }
 }
