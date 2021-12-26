@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data;
 
 namespace EFCoreDataAccess.UnitOfWorkImp
 {
     public partial class UnitOfWork<T>
     {
-        public void BeginTransaction()
+        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
             if (_transaction != null)
             {
                 throw new InvalidOperationException("There is already an active transaction");
             }
 
-            _transaction = DbContext.Database.BeginTransaction();
+            _transaction = DbContext.Database.BeginTransaction(isolationLevel);
         }
 
         public void Commit()

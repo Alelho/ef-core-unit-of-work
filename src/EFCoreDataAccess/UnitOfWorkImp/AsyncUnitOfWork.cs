@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,14 +8,16 @@ namespace EFCoreDataAccess.UnitOfWorkImp
 {
     public partial class UnitOfWork<T>
     {
-        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        public async Task BeginTransactionAsync(
+            IsolationLevel isolationLevel = IsolationLevel.ReadCommitted,
+            CancellationToken cancellationToken = default)
         {
             if (_transaction != null)
             {
                 throw new InvalidOperationException("There is already an active transaction");
             }
             
-            _transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken)
+            _transaction = await DbContext.Database.BeginTransactionAsync(isolationLevel, cancellationToken)
                 .ConfigureAwait(continueOnCapturedContext: false);
         }
 
