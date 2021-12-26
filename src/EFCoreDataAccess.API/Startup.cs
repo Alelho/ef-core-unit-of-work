@@ -1,4 +1,5 @@
 using EFCoreDataAccess.Data;
+using EFCoreDataAccess.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Diagnostics;
 
 namespace EFCoreDataAccess.API
@@ -22,12 +24,14 @@ namespace EFCoreDataAccess.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = @"Server=localhost;Database=DataAccessTests;Uid=root;Pwd=123456;";
+            var connectionString = @"Server=localhost;Database=EFCoreUnitOfWork;Uid=root;Pwd=123456;";
 
             services.AddDbContext<EmployeeDbContext>(options =>
                 options.UseMySql(connectionString, serverVersion: ServerVersion.AutoDetect(connectionString))
                 .LogTo(msg => Debug.WriteLine(msg), LogLevel.Error)
                 .EnableSensitiveDataLogging());
+
+            services.AddUnitOfWork<EmployeeDbContext>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -55,6 +59,14 @@ namespace EFCoreDataAccess.API
             {
                 endpoints.MapControllers();
             });
+
+            RunMigrate(app.ApplicationServices);
+        }
+
+        private void RunMigrate(IServiceProvider serviceProvider)
+        {
+            var dbContext = serviceProvider.CreateScope().ServiceProvider.GetService<EmployeeDbContext>();
+            dbContext.Database.Migrate();
         }
     }
 }

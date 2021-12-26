@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreDataAccess.Data.Migrations
 {
     [DbContext(typeof(EmployeeDbContext))]
-    [Migration("20211216110318_Initial")]
+    [Migration("20211225182335_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,7 +17,7 @@ namespace EFCoreDataAccess.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.12");
+                .HasAnnotation("ProductVersion", "5.0.13");
 
             modelBuilder.Entity("EFCoreDataAccess.Models.Address", b =>
                 {
@@ -29,9 +29,6 @@ namespace EFCoreDataAccess.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
-
-                    b.Property<long>("CompanyId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -55,9 +52,6 @@ namespace EFCoreDataAccess.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId")
-                        .IsUnique();
-
                     b.ToTable("Addresses");
                 });
 
@@ -67,12 +61,23 @@ namespace EFCoreDataAccess.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<long>("AddressId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("AddressId1")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
+                    b.HasIndex("AddressId1");
 
                     b.ToTable("Companies");
                 });
@@ -111,15 +116,19 @@ namespace EFCoreDataAccess.Data.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("EFCoreDataAccess.Models.Address", b =>
+            modelBuilder.Entity("EFCoreDataAccess.Models.Company", b =>
                 {
-                    b.HasOne("EFCoreDataAccess.Models.Company", "Company")
-                        .WithOne("Address")
-                        .HasForeignKey("EFCoreDataAccess.Models.Address", "CompanyId")
+                    b.HasOne("EFCoreDataAccess.Models.Address", null)
+                        .WithOne()
+                        .HasForeignKey("EFCoreDataAccess.Models.Company", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Company");
+                    b.HasOne("EFCoreDataAccess.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId1");
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("EFCoreDataAccess.Models.Employee", b =>
@@ -135,8 +144,6 @@ namespace EFCoreDataAccess.Data.Migrations
 
             modelBuilder.Entity("EFCoreDataAccess.Models.Company", b =>
                 {
-                    b.Navigation("Address");
-
                     b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618

@@ -11,36 +11,48 @@ namespace EFCoreDataAccess.Tests.Infra
         public static void Populate(IServiceProvider serviceProvider)
         {
             var employeeContext = serviceProvider.GetService<EmployeeDbContext>();
-          
+
             employeeContext.Database.Migrate();
+
+            var santaBarbaraAddress = new Address(
+                street: "10, Little Finger",
+                city: "Santa Barbara",
+                state: "CA",
+                country: "EUA",
+                postalCode: "222333");
+
+            var miamiAddress = new Address(
+                street: "16, Lincoln",
+                city: "Miami",
+                state: "FL",
+                country: "EUA",
+                postalCode: "333456");
+
+            var bostonAddress = new Address(
+                street: "1, Palmer Square",
+                city: "Boston",
+                state: "MA",
+                country: "EUA",
+                postalCode: "123444");
+
+            employeeContext.AddRange(new[]
+            {
+                santaBarbaraAddress,
+                miamiAddress,
+                bostonAddress
+            });
+
+            employeeContext.SaveChanges();
 
             var company1 = new Company(name: "Santa Barbara Police");
             var company2 = new Company(name: "Miame Metro Police");
             var company3 = new Company(name: "FBI");
 
-            company1.SetAddress(new Address(
-                street: "10, Little Finger",
-                city: "Santa Barbara",
-                state: "CA",
-                country: "EUA",
-                postalCode: "222333"
-                ));
+            company1.SetAddress(santaBarbaraAddress.Id);
 
-            company2.SetAddress(new Address(
-                street: "16, Lincoln",
-                city: "Miami",
-                state: "FL",
-                country: "EUA",
-                postalCode: "333456"
-                ));
+            company2.SetAddress(miamiAddress.Id);
 
-            company3.SetAddress(new Address(
-                street: "1, Palmer Square",
-                city: "Boston",
-                state: "MA",
-                country: "EUA",
-                postalCode: "123444"
-                ));
+            company3.SetAddress(bostonAddress.Id);
 
             company1.AddEmployee(new Employee(
                     name: "Shawn Spencer",

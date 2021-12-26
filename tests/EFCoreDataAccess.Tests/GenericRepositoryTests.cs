@@ -28,22 +28,37 @@ namespace EFCoreDataAccess.Tests
             using var scope = _databaseFixture.ServiceProvider.CreateScope();
             var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
 
-            var companyRepository = uow.GetGenericRepository<Company>();
+            var addressRepository = uow.GetGenericRepository<Address>();
 
-            var listOfCompanies = new[]
+            var listOfAddresses = new[]
             {
-                new Company(name: "New York Times"),
-                new Company(name: "BBC"),
-                new Company(name: "Fox"),
+                new Address(
+                    street: "1, Street A",
+                    city: "Boston",
+                    state: "MA",
+                    country: "EUA",
+                    postalCode: "6543245"),
+                new Address(
+                    street: "2, Street B",
+                    city: "Malibu",
+                    state: "CA",
+                    country: "EUA",
+                    postalCode: "98645"),
+                new Address(
+                    street: "3, Street C",
+                    city: "El Paso",
+                    state: "TX",
+                    country: "EUA",
+                    postalCode: "12345")
             };
 
             // Act
-            companyRepository.AddRange(listOfCompanies);
+            addressRepository.AddRange(listOfAddresses);
             uow.SaveChanges();
 
             // Assert
-            var companiesStored = companyRepository.Search(c => listOfCompanies.Select(o => o.Id).Contains(c.Id));
-            listOfCompanies.Should().BeEquivalentTo(companiesStored);
+            var companiesStored = addressRepository.Search(c => listOfAddresses.Select(o => o.Id).Contains(c.Id));
+            listOfAddresses.Should().BeEquivalentTo(companiesStored);
         }
 
         [Fact]
@@ -53,22 +68,37 @@ namespace EFCoreDataAccess.Tests
             using var scope = _databaseFixture.ServiceProvider.CreateScope();
             var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
 
-            var companyRepository = uow.GetGenericRepository<Company>();
+            var addressRepository = uow.GetGenericRepository<Address>();
 
-            var listOfCompanies = new[]
+            var listOfAddresses = new[]
             {
-                new Company(name: "Netflix"),
-                new Company(name: "Prime Videos"),
-                new Company(name: "HBO Max"),
+                new Address(
+                    street: "1, Street A",
+                    city: "Boston",
+                    state: "MA",
+                    country: "EUA",
+                    postalCode: "6543245"),
+                new Address(
+                    street: "2, Street B",
+                    city: "Malibu",
+                    state: "CA",
+                    country: "EUA",
+                    postalCode: "98645"),
+                new Address(
+                    street: "3, Street C",
+                    city: "El Paso",
+                    state: "TX",
+                    country: "EUA",
+                    postalCode: "12345")
             };
 
             // Act
-            await companyRepository.AddRangeAsync(listOfCompanies);
+            await addressRepository.AddRangeAsync(listOfAddresses);
             await uow.SaveChangesAsync();
 
             // Assert
-            var companiesStored = await companyRepository.SearchAsync(c => listOfCompanies.Select(o => o.Id).Contains(c.Id));
-            listOfCompanies.Should().BeEquivalentTo(companiesStored);
+            var companiesStored = await addressRepository.SearchAsync(c => listOfAddresses.Select(o => o.Id).Contains(c.Id));
+            listOfAddresses.Should().BeEquivalentTo(companiesStored);
         }
 
         [Fact]

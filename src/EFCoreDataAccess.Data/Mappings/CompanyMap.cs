@@ -15,6 +15,10 @@ namespace EFCoreDataAccess.Data.Mappings
             builder.Property(o => o.Name)
                    .IsRequired()
                    .HasMaxLength(256);
+
+            builder.HasOne<Address>()
+                .WithOne()
+                .HasForeignKey<Company>(c => c.AddressId);
         }
     }
 }

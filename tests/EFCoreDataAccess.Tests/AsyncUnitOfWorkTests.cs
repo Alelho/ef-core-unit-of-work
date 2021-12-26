@@ -61,29 +61,31 @@ namespace EFCoreDataAccess.Tests
 
             await uow.BeginTransactionAsync();
 
+            var addressRepository = uow.GetGenericRepository<Address>();
             var companyRepository = uow.GetGenericRepository<Company>();
-            var employeeRepository = uow.GetGenericRepository<Employee>();
+
+            var address = new Address(
+                street: "2, Pink",
+                city: "Nowhere",
+                state: "Nowhere",
+                country: "Nowhere",
+                postalCode: "132456");
+
+            addressRepository.Add(address);
+            uow.SaveChanges();
 
             var disneyCompany = new Company(name: "Disney");
-            var disneyEmployee = new Employee(
-                name: "Peter P.",
-                code: "003",
-                position: "Actor",
-                birthDate: new DateTime(1996, 06, 01));
+            disneyCompany.SetAddress(address.Id);
 
             disneyCompany = await companyRepository.AddAsync(disneyCompany);
-            await uow.SaveChangesAsync();
-
-            disneyEmployee.SetCompany(disneyCompany.Id);
-            employeeRepository.Add(disneyEmployee);
             await uow.SaveChangesAsync();
 
             // Act
             await uow.CommitAsync();
 
             // Assert
+            address.Id.Should().BeGreaterThan(0);
             disneyCompany.Id.Should().BeGreaterThan(0);
-            disneyEmployee.Id.Should().BeGreaterThan(0);
         }
 
         [Fact]
@@ -95,21 +97,23 @@ namespace EFCoreDataAccess.Tests
 
             await uow.BeginTransactionAsync();
 
+            var addressRepository = uow.GetGenericRepository<Address>();
             var companyRepository = uow.GetGenericRepository<Company>();
-            var employeeRepository = uow.GetGenericRepository<Employee>();
+
+            var address = new Address(
+                street: "2, Pink",
+                city: "Nowhere",
+                state: "Nowhere",
+                country: "Nowhere",
+                postalCode: "132456");
+
+            addressRepository.Add(address);
+            uow.SaveChanges();
 
             var disneyCompany = new Company(name: "Disney");
-            var disneyEmployee = new Employee(
-                name: "Peter P.",
-                code: "003",
-                position: "Actor",
-                birthDate: new DateTime(1996, 06, 01));
+            disneyCompany.SetAddress(address.Id);
 
             disneyCompany = await companyRepository.AddAsync(disneyCompany);
-            await uow.SaveChangesAsync();
-
-            disneyEmployee.SetCompany(disneyCompany.Id);
-            await employeeRepository.AddAsync(disneyEmployee);
             await uow.SaveChangesAsync();
 
             // Act
@@ -117,7 +121,7 @@ namespace EFCoreDataAccess.Tests
 
             // Assert
             companyRepository.FirstOrDefault(o => o.Id == disneyCompany.Id).Should().BeNull();
-            employeeRepository.FirstOrDefault(o => o.Id == disneyEmployee.Id).Should().BeNull();
+            addressRepository.FirstOrDefault(o => o.Id == address.Id).Should().BeNull();
         }
     }
 }

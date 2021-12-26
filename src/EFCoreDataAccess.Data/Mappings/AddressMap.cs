@@ -31,9 +31,6 @@ namespace EFCoreDataAccess.Data.Mappings
             builder.Property(o => o.Country)
                    .IsRequired()
                    .HasMaxLength(32);
-
-            builder.HasOne(a => a.Company)
-                .WithOne(c => c.Address);
         }
     }
 }

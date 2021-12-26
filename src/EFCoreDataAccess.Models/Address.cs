@@ -19,7 +19,5 @@ namespace EFCoreDataAccess.Models
         public string State { get; private set; }
         public string Country { get; private set; }
         public string PostalCode { get; private set; }
-        public long CompanyId { get; private set; }
-        public Company Company { get; private set; }
     }
 }
