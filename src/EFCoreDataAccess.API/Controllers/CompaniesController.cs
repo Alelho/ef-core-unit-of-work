@@ -1,5 +1,6 @@
 ﻿using EFCoreDataAccess.API.Requests;
 using EFCoreDataAccess.Data;
+using EFCoreDataAccess.Data.Repositories;
 using EFCoreDataAccess.Interfaces;
 using EFCoreDataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,7 @@ namespace EFCoreDataAccess.API.Controllers
             _unitOfWork.BeginTransaction();
 
             var companyRepository = _unitOfWork.GetGenericRepository<Company>();
-            var addressRepository = _unitOfWork.GetGenericRepository<Address>();
+            var addressRepository = _unitOfWork.GetRepository<AddressRepository>();
 
             var address = new Address(request.Street, request.City, request.State, request.Country, request.PostalCode);
 
