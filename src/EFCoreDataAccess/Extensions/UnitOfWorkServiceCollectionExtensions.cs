@@ -26,8 +26,6 @@ namespace EFCoreDataAccess.Extensions
 				case ServiceLifetime.Transient:
 					services.AddTransient<IUnitOfWork<T>, UnitOfWork<T>>();
 					break;
-				default:
-					throw new InvalidOperationException(nameof(lifetime));
 			}
 		}
 	}
