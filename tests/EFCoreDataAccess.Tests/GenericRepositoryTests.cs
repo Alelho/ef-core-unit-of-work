@@ -308,11 +308,62 @@ namespace EFCoreDataAccess.Tests
             uow.SaveChanges();
 
             // Assert
-            var editedAddress = addressRepository.SingleOrDefault(a => a.Id == address.Id);
+            var modifiedAddress = addressRepository.SingleOrDefault(a => a.Id == address.Id);
 
-            editedAddress.Should().BeEquivalentTo(expectedResult, opt => opt.Excluding(o => o.Id));
+            modifiedAddress.Should().BeEquivalentTo(expectedResult, opt => opt.Excluding(o => o.Id));
         }
 
+        [Fact]
+        public void Update_ShouldUpdateListOfModifiedEntities_GivenModifiedEntities()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var addressRepository = uow.GetGenericRepository<Address>();
+
+            var copacabaAddress = new Address(
+                street: "11, Copacabana",
+                city: "Rio de Janeiro",
+                state: "RJ",
+                country: "Brazil",
+                postalCode: "44009900");
+
+            var stewartAddress = new Address(
+                street: "111, Stewart",
+                city: "Boston",
+                state: "MA",
+                country: "EUA",
+                postalCode: "656565");
+
+            addressRepository.AddRange(new[] { copacabaAddress, stewartAddress });
+            uow.SaveChanges();
+
+            copacabaAddress.EditAddress(
+                copacabaAddress.Street, 
+                copacabaAddress.City,
+                copacabaAddress.State,
+                copacabaAddress.Country,
+                postalCode: "12123344");
+
+            stewartAddress.EditAddress(
+                stewartAddress.Street,
+                stewartAddress.City,
+                stewartAddress.State,
+                stewartAddress.Country,
+                postalCode: "33344400");
+
+            // Act
+            addressRepository.UpdateRange(new[] { copacabaAddress, stewartAddress });
+            uow.SaveChanges();
+
+            // Assert
+            var copacabaModifiedAddress = addressRepository.SingleOrDefault(a => a.Id == copacabaAddress.Id);
+            var stewartModifiedAddress = addressRepository.SingleOrDefault(a => a.Id == stewartAddress.Id);
+
+            copacabaModifiedAddress.Should().BeEquivalentTo(copacabaAddress);
+            stewartModifiedAddress.Should().BeEquivalentTo(stewartAddress);
+        }
 
         [Fact]
         public void Dispose_ShouldDispose_GivenValidGenericRepositoryInstance()
