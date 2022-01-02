@@ -14,5 +14,7 @@ namespace EFCoreDataAccess.Interfaces
 
         T Add(T entity);
         void AddRange(IEnumerable<T> entities);
+        void Update(T entity, params Expression<Func<T, object>>[] properties);
+        void UpdateRange(IEnumerable<T> entities);
     }
 }

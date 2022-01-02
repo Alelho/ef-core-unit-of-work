@@ -237,6 +237,84 @@ namespace EFCoreDataAccess.Tests
         }
 
         [Fact]
+        public void Update_ShouldUpdateTheEntity_GivenModifiedEntity()
+		{
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var addressRepository = uow.GetGenericRepository<Address>();
+
+            var address = new Address(
+                street: "3, Bourrassol",
+                city: "Boston",
+                state: "CA",
+                country: "France",
+                postalCode: "11333");
+            
+            addressRepository.Add(address);
+            uow.SaveChanges();
+
+            address.EditAddress(
+                street: address.Street,
+                city: "Toulouse",
+                state: "TO",
+                country: address.Country,
+                postalCode: "768900");
+
+            // Act
+            addressRepository.Update(address);
+            uow.SaveChanges();
+
+            // Assert
+            var editedAddress = addressRepository.SingleOrDefault(a => a.Id == address.Id);
+
+            address.Should().BeEquivalentTo(editedAddress);
+        }
+
+        [Fact]
+        public void Update_ShouldUpdateOnlySelectedProperties_GivenModifiedProperties()
+        {
+            // Arrange
+            using var scope = _databaseFixture.ServiceProvider.CreateScope();
+            var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+            var addressRepository = uow.GetGenericRepository<Address>();
+
+            var address = new Address(
+                street: "1578, Paulista",
+                city: "Rio de Janeiro",
+                state: "RJ",
+                country: "Brazil",
+                postalCode: "99009900");
+
+            addressRepository.Add(address);
+            uow.SaveChanges();
+
+            var newCity = "São Paulo";
+            var newState = "SP";
+
+            var expectedResult = new Address(address.Street, newCity, newState, address.Country, address.PostalCode);
+
+            address.EditAddress(
+                street: "",
+                city: newCity,
+                state: newState,
+                country: "",
+                postalCode: "");
+
+            // Act
+            addressRepository.Update(address, o => o.City, o => o.State);
+            uow.SaveChanges();
+
+            // Assert
+            var editedAddress = addressRepository.SingleOrDefault(a => a.Id == address.Id);
+
+            editedAddress.Should().BeEquivalentTo(expectedResult, opt => opt.Excluding(o => o.Id));
+        }
+
+
+        [Fact]
         public void Dispose_ShouldDispose_GivenValidGenericRepositoryInstance()
         {
             // Arrange

@@ -6,29 +6,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreDataAccess.Extensions
 {
-    public static class UnitOfWorkServiceCollectionExtensions
-    {
-        public static void AddUnitOfWork<T>(
-            this IServiceCollection services,
-            ServiceLifetime lifetime = ServiceLifetime.Scoped)
-            where T : DbContext
-        {
-            if (services == null) throw new ArgumentNullException(nameof(services));
+	public static class UnitOfWorkServiceCollectionExtensions
+	{
+		public static void AddUnitOfWork<T>(
+			this IServiceCollection services,
+			ServiceLifetime lifetime = ServiceLifetime.Scoped)
+			where T : DbContext
+		{
+			if (services == null) throw new ArgumentNullException(nameof(services));
 
-            switch (lifetime)
-            {
-                case ServiceLifetime.Singleton:
-                    services.AddSingleton<IUnitOfWork<T>, UnitOfWork<T>>();
-                    break;
-                case ServiceLifetime.Scoped:
-                    services.AddScoped<IUnitOfWork<T>, UnitOfWork<T>>();
-                    break;
-                case ServiceLifetime.Transient:
-                    services.AddTransient<IUnitOfWork<T>, UnitOfWork<T>>();
-                    break;
-                default:
-                    throw new InvalidOperationException(nameof(lifetime));
-            }
-        }
-    }
+			switch (lifetime)
+			{
+				case ServiceLifetime.Singleton:
+					services.AddSingleton<IUnitOfWork<T>, UnitOfWork<T>>();
+					break;
+				case ServiceLifetime.Scoped:
+					services.AddScoped<IUnitOfWork<T>, UnitOfWork<T>>();
+					break;
+				case ServiceLifetime.Transient:
+					services.AddTransient<IUnitOfWork<T>, UnitOfWork<T>>();
+					break;
+				default:
+					throw new InvalidOperationException(nameof(lifetime));
+			}
+		}
+	}
 }

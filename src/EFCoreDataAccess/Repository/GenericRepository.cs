@@ -1,5 +1,7 @@
-﻿using EFCoreDataAccess.Interfaces;
+﻿using EFCoreDataAccess.Extensions;
+using EFCoreDataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,122 +11,171 @@ using System.Threading.Tasks;
 
 namespace EFCoreDataAccess.Repository
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
-    {
-        private readonly DbSet<T> _dbSet;
+	public class GenericRepository<T> : IGenericRepository<T> where T : class
+	{
+		private readonly DbSet<T> _dbSet;
 
-        public GenericRepository(DbContext dbContext)
-        {
-            DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-            _dbSet = dbContext.Set<T>();
-        }
+		public GenericRepository(DbContext dbContext)
+		{
+			DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+			_dbSet = dbContext.Set<T>();
+		}
 
-        protected DbContext DbContext { get; private set; }
+		protected DbContext DbContext { get; private set; }
 
-        public virtual T Add(T entity)
-        {
-            _dbSet.Add(entity);
+		public virtual T Add(T entity)
+		{
+			_dbSet.Add(entity);
 
-            return entity;
-        }
+			return entity;
+		}
 
-        public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
-        {
-            await _dbSet.AddAsync(entity, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+		public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
+		{
+			await _dbSet.AddAsync(entity, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
 
-            return entity;
-        }
+			return entity;
+		}
 
-        public virtual void AddRange(IEnumerable<T> entities)
-        {
-            _dbSet.AddRange(entities);
-        }
+		public virtual void AddRange(IEnumerable<T> entities)
+		{
+			_dbSet.AddRange(entities);
+		}
 
-        public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
-        {
-            await _dbSet.AddRangeAsync(entities, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
-        }
+		public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+		{
+			await _dbSet.AddRangeAsync(entities, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+		}
 
-        public virtual bool Any(Expression<Func<T, bool>> predicate = null)
-        {
-            return predicate == null ?
-                _dbSet.Any() :
-                _dbSet.Any(predicate);
-        }
+		public virtual void Update(T entity, params Expression<Func<T, object>>[] properties)
+		{
+			if (properties.IsNullOrEmpty())
+			{
+				_dbSet.Update(entity);
+				return;
+			}
 
-        public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
-        {
-            return predicate == null ?
-                await _dbSet.AnyAsync().ConfigureAwait(continueOnCapturedContext: false) :
-                await _dbSet.AnyAsync(predicate).ConfigureAwait(continueOnCapturedContext: false);
-        }
+			var originalAutoDetectChangesValue = DbContext.ChangeTracker.AutoDetectChangesEnabled;
+			SetAutoDetectChanges(enabled: false);
+			
+			DbContext.Entry(entity).State = EntityState.Unchanged;
 
-        public virtual long Count(Expression<Func<T, bool>> predicate = null)
-        {
-            return predicate == null ?
-                _dbSet.LongCount() :
-                _dbSet.LongCount(predicate);
-        }
+			var modifiedProperty = properties.Select(o => o.GetPropertyInfo());
 
-        public virtual async Task<long> CountAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
-        {
-            return predicate == null ?
-                await _dbSet.AsNoTracking().LongCountAsync() :
-                await _dbSet.AsNoTracking().LongCountAsync(predicate);
-        }
+			var entityProperties = entity.GetType().GetProperties();
+			var length = entityProperties.Length;
 
-        public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate)
-        {
-            return _dbSet.FirstOrDefault(predicate);
-        }
+			for (var i = 0; i < length; i++)
+			{
+				var property = entityProperties[i];
 
-        public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
-        }
+				if (modifiedProperty.Contains(property))
+				{
+					DbContext.Entry(entity).Property(property.Name).IsModified = true;
+				}
+				else
+				{
+					DbContext.Entry(entity).Property(property.Name).IsModified = false;
+				}
+			}
 
-        public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)
-        {
-            return _dbSet.Where(predicate)
-                 .ToList();
-        }
+			SetAutoDetectChanges(originalAutoDetectChangesValue);
+		}
 
-        public async virtual Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.Where(predicate)
-                .ToListAsync(cancellationToken);
-        }
+		public virtual void UpdateRange(IEnumerable<T> entities)
+		{
+			if (!entities.IsNullOrEmpty()) return;
 
-        public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate)
-        {
-            return _dbSet.SingleOrDefault(predicate);
-        }
+			_dbSet.UpdateRange(entities);
+		}
 
-        public virtual async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
-        {
-            return await _dbSet.SingleOrDefaultAsync(predicate, cancellationToken);
-        }
+		public virtual bool Any(Expression<Func<T, bool>> predicate = null)
+		{
+			return predicate == null ?
+				_dbSet.Any() :
+				_dbSet.Any(predicate);
+		}
 
-        #region Disposable Members
+		public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
+		{
+			return predicate == null ?
+				await _dbSet.AnyAsync().ConfigureAwait(continueOnCapturedContext: false) :
+				await _dbSet.AnyAsync(predicate).ConfigureAwait(continueOnCapturedContext: false);
+		}
 
-        private bool _disposed;
+		public virtual long Count(Expression<Func<T, bool>> predicate = null)
+		{
+			return predicate == null ?
+				_dbSet.LongCount() :
+				_dbSet.LongCount(predicate);
+		}
 
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+		public virtual async Task<long> CountAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
+		{
+			return predicate == null ?
+				await _dbSet.AsNoTracking().LongCountAsync() :
+				await _dbSet.AsNoTracking().LongCountAsync(predicate);
+		}
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed || !disposing) return;
+		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate)
+		{
+			return _dbSet.FirstOrDefault(predicate);
+		}
 
-            DbContext?.Dispose();
-            DbContext = null;
+		public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+		{
+			return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
+		}
 
-            _disposed = true;
-        }
+		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)
+		{
+			return _dbSet.Where(predicate)
+				 .ToList();
+		}
 
-        #endregion
-    }
+		public async virtual Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+		{
+			return await _dbSet.Where(predicate)
+				.ToListAsync(cancellationToken);
+		}
+
+		public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate)
+		{
+			return _dbSet.SingleOrDefault(predicate);
+		}
+
+		public virtual async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+		{
+			return await _dbSet.SingleOrDefaultAsync(predicate, cancellationToken);
+		}
+
+		private void SetAutoDetectChanges(bool enabled)
+		{
+			if (DbContext.ChangeTracker.AutoDetectChangesEnabled == enabled) return;
+
+			DbContext.ChangeTracker.AutoDetectChangesEnabled = enabled;
+		}
+
+		#region Disposable Members
+
+		private bool _disposed;
+
+		public void Dispose()
+		{
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (_disposed || !disposing) return;
+
+			DbContext?.Dispose();
+			DbContext = null;
+
+			_disposed = true;
+		}
+
+		#endregion
+	}
 }
