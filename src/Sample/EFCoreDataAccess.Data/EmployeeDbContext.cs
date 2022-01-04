@@ -9,6 +9,7 @@ namespace EFCoreDataAccess.Data
         {
             ChangeTracker.LazyLoadingEnabled = false;
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
