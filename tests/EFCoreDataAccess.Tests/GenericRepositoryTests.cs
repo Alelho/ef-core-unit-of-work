@@ -314,7 +314,7 @@ namespace EFCoreDataAccess.Tests
 		}
 
 		[Fact]
-		public void Update_ShouldUpdateListOfModifiedEntities_GivenModifiedEntities()
+		public void UpdateRange_ShouldUpdateListOfModifiedEntities_GivenModifiedEntities()
 		{
 			// Arrange
 			using var scope = _databaseFixture.ServiceProvider.CreateScope();

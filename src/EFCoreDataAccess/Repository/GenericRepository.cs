@@ -58,7 +58,7 @@ namespace EFCoreDataAccess.Repository
 
 			var originalAutoDetectChangesValue = DbContext.ChangeTracker.AutoDetectChangesEnabled;
 			SetAutoDetectChanges(enabled: false);
-			
+
 			DbContext.Entry(entity).State = EntityState.Unchanged;
 
 			var modifiedProperty = properties.Select(o => o.GetPropertyInfo());
@@ -85,7 +85,7 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual void UpdateRange(IEnumerable<T> entities)
 		{
-			if (!entities.IsNullOrEmpty()) return;
+			if (entities.IsNullOrEmpty()) return;
 
 			_dbSet.UpdateRange(entities);
 		}
