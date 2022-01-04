@@ -145,12 +145,26 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate)
 		{
-			return _dbSet.AsNoTracking().FirstOrDefault(predicate);
+			return _dbSet.AsNoTracking()
+				.FirstOrDefault(predicate);
 		}
 
 		public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
-			return await _dbSet.AsNoTracking().FirstOrDefaultAsync(predicate, cancellationToken);
+			return await _dbSet.AsNoTracking()
+				.FirstOrDefaultAsync(predicate, cancellationToken);
+		}
+
+		public virtual T LastOrDefault(Expression<Func<T, bool>> predicate)
+		{
+			return _dbSet.AsNoTracking()
+				.LastOrDefault(predicate);
+		}
+
+		public virtual async Task<T> LastOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+		{
+			return await _dbSet.AsNoTracking()
+				.LastOrDefaultAsync(predicate, cancellationToken);
 		}
 
 		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)

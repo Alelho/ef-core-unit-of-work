@@ -16,6 +16,7 @@ namespace EFCoreDataAccess.Interfaces
 
         T SingleOrDefault(Expression<Func<T, bool>> predicate);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
+        T LastOrDefault(Expression<Func<T, bool>> predicate);
         IEnumerable<T> Search(Expression<Func<T, bool>> predicate);
         bool Any(Expression<Func<T, bool>> predicate = null);
         long Count(Expression<Func<T, bool>> predicate = null);
