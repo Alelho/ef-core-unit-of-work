@@ -139,29 +139,31 @@ namespace EFCoreDataAccess.Repository
 		public virtual async Task<long> CountAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
 		{
 			return predicate == null ?
-				await _dbSet.AsNoTracking().LongCountAsync() :
-				await _dbSet.AsNoTracking().LongCountAsync(predicate);
+				await _dbSet.LongCountAsync() :
+				await _dbSet.LongCountAsync(predicate);
 		}
 
 		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate)
 		{
-			return _dbSet.FirstOrDefault(predicate);
+			return _dbSet.AsNoTracking().FirstOrDefault(predicate);
 		}
 
 		public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
-			return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
+			return await _dbSet.AsNoTracking().FirstOrDefaultAsync(predicate, cancellationToken);
 		}
 
 		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)
 		{
 			return _dbSet.Where(predicate)
+				 .AsNoTracking()
 				 .ToList();
 		}
 
 		public async virtual Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
 			return await _dbSet.Where(predicate)
+				.AsNoTracking()
 				.ToListAsync(cancellationToken);
 		}
 
@@ -173,7 +175,8 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
-			return await _dbSet.SingleOrDefaultAsync(predicate, cancellationToken);
+			return await _dbSet.AsNoTracking()
+				.SingleOrDefaultAsync(predicate, cancellationToken);
 		}
 
 		#endregion
