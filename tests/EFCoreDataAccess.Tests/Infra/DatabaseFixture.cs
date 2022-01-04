@@ -18,7 +18,8 @@ namespace EFCoreDataAccess.Tests.Infra
 
             services.AddDbContext<EmployeeDbContext>(options =>
                 options.UseMySql(connectionString, serverVersion: ServerVersion.AutoDetect(connectionString))
-                .LogTo(msg => Debug.WriteLine(msg), LogLevel.Information));
+                .LogTo(msg => Debug.WriteLine(msg), LogLevel.Information)
+                .EnableSensitiveDataLogging(sensitiveDataLoggingEnabled: true));
 
             services.AddUnitOfWork<EmployeeDbContext>();
 

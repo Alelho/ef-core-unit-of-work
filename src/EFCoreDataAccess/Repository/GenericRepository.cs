@@ -1,7 +1,6 @@
 ﻿using EFCoreDataAccess.Extensions;
 using EFCoreDataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +21,8 @@ namespace EFCoreDataAccess.Repository
 		}
 
 		protected DbContext DbContext { get; private set; }
+
+		#region Writer Members
 
 		public virtual T Add(T entity)
 		{
@@ -89,6 +90,31 @@ namespace EFCoreDataAccess.Repository
 			_dbSet.UpdateRange(entities);
 		}
 
+		public virtual void RemoveByEntity(T entity)
+		{
+			_dbSet.Remove(entity);
+		}
+
+		public virtual void RemoveSingle(Expression<Func<T, bool>> predicate)
+		{
+			var entity = _dbSet.AsTracking().SingleOrDefault(predicate);
+
+			if (entity == null) throw new InvalidOperationException($"Entity not found!");
+
+			_dbSet.Remove(entity);
+		}
+
+		public virtual void RemoveRange(IEnumerable<T> entities)
+		{
+			if (entities.IsNullOrEmpty()) return;
+
+			_dbSet.RemoveRange(entities);
+		}
+
+		#endregion
+
+		#region Reader Members
+
 		public virtual bool Any(Expression<Func<T, bool>> predicate = null)
 		{
 			return predicate == null ?
@@ -141,13 +167,16 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate)
 		{
-			return _dbSet.SingleOrDefault(predicate);
+			return _dbSet.AsNoTracking()
+				.SingleOrDefault(predicate);
 		}
 
 		public virtual async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
 			return await _dbSet.SingleOrDefaultAsync(predicate, cancellationToken);
 		}
+
+		#endregion
 
 		private void SetAutoDetectChanges(bool enabled)
 		{
