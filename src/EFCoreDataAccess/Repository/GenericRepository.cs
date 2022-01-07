@@ -155,10 +155,21 @@ namespace EFCoreDataAccess.Repository
 				.FirstOrDefaultAsync(predicate, cancellationToken);
 		}
 
-		public virtual T LastOrDefault(Expression<Func<T, bool>> predicate)
+		public virtual T LastOrDefault(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> keySelector)
 		{
 			return _dbSet.AsNoTracking()
+				.OrderBy(keySelector)
 				.LastOrDefault(predicate);
+		}
+
+		public virtual async Task<T> LastOrDefaultAsync(
+			Expression<Func<T, bool>> predicate,
+			Expression<Func<T, object>> keySelector,
+			CancellationToken cancellationToken)
+		{
+			return await _dbSet.AsNoTracking()
+				.OrderBy(keySelector)
+				.LastOrDefaultAsync(predicate, cancellationToken);
 		}
 
 		public virtual async Task<T> LastOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
