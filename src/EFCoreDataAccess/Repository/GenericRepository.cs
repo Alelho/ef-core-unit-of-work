@@ -172,12 +172,6 @@ namespace EFCoreDataAccess.Repository
 				.LastOrDefaultAsync(predicate, cancellationToken);
 		}
 
-		public virtual async Task<T> LastOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
-		{
-			return await _dbSet.AsNoTracking()
-				.LastOrDefaultAsync(predicate, cancellationToken);
-		}
-
 		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)
 		{
 			return _dbSet.Where(predicate)
