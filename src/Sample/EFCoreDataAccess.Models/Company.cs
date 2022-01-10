@@ -14,8 +14,8 @@ namespace EFCoreDataAccess.Models
         public long Id { get; private set; }
         public string Name { get; private set; }
         public long AddressId { get; private set; }
-        public Address Address { get; private set; }
-        public ICollection<Employee> Employees { get; private set; }
+        public virtual Address Address { get; private set; }
+        public virtual ICollection<Employee> Employees { get; private set; }
 
         public void SetAddress(long addressId)
         {

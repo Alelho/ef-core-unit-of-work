@@ -42,8 +42,7 @@ namespace EFCoreDataAccess.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AddressId = table.Column<long>(type: "bigint", nullable: false),
-                    AddressId1 = table.Column<long>(type: "bigint", nullable: true)
+                    AddressId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,12 +53,6 @@ namespace EFCoreDataAccess.Data.Migrations
                         principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Companies_Addresses_AddressId1",
-                        column: x => x.AddressId1,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -95,11 +88,6 @@ namespace EFCoreDataAccess.Data.Migrations
                 table: "Companies",
                 column: "AddressId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Companies_AddressId1",
-                table: "Companies",
-                column: "AddressId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_CompanyId",

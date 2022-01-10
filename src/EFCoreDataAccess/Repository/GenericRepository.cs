@@ -63,17 +63,15 @@ namespace EFCoreDataAccess.Repository
 
 			var modifiedProperty = properties.Select(o => o.GetPropertyInfo());
 
-			var entityProperties = entity.GetType().GetProperties();
-			var length = entityProperties.Length;
+			var entityProperties = DbContext.Entry(entity).Metadata.GetProperties();
 
-			for (var i = 0; i < length; i++)
+			foreach (var property in entityProperties)
 			{
-				var property = entityProperties[i];
-
-				if (modifiedProperty.Contains(property))
+				if (modifiedProperty.Contains(property.PropertyInfo))
 				{
 					DbContext.Entry(entity).Property(property.Name).IsModified = true;
 				}
+
 				else
 				{
 					DbContext.Entry(entity).Property(property.Name).IsModified = false;

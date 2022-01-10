@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreDataAccess.Data.Migrations
 {
     [DbContext(typeof(EmployeeDbContext))]
-    [Migration("20211225182335_Initial")]
+    [Migration("20220110030336_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,9 +64,6 @@ namespace EFCoreDataAccess.Data.Migrations
                     b.Property<long>("AddressId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("AddressId1")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -76,8 +73,6 @@ namespace EFCoreDataAccess.Data.Migrations
 
                     b.HasIndex("AddressId")
                         .IsUnique();
-
-                    b.HasIndex("AddressId1");
 
                     b.ToTable("Companies");
                 });
@@ -118,15 +113,11 @@ namespace EFCoreDataAccess.Data.Migrations
 
             modelBuilder.Entity("EFCoreDataAccess.Models.Company", b =>
                 {
-                    b.HasOne("EFCoreDataAccess.Models.Address", null)
-                        .WithOne()
+                    b.HasOne("EFCoreDataAccess.Models.Address", "Address")
+                        .WithOne("Company")
                         .HasForeignKey("EFCoreDataAccess.Models.Company", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("EFCoreDataAccess.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId1");
 
                     b.Navigation("Address");
                 });
@@ -139,6 +130,11 @@ namespace EFCoreDataAccess.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("EFCoreDataAccess.Models.Address", b =>
+                {
                     b.Navigation("Company");
                 });
 

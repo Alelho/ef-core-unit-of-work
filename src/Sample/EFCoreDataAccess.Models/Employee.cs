@@ -19,7 +19,7 @@ namespace EFCoreDataAccess.Models
         public string Position { get; private set; }
         public DateTime BirthDate { get; private set; }
         public long CompanyId { get; private set; }
-        public Company Company { get; private set; }
+        public virtual Company Company { get; private set; }
 
         public void SetCompany(long companyId)
         {
