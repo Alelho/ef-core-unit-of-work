@@ -1,5 +1,6 @@
 ﻿using EFCoreDataAccess.Data;
 using EFCoreDataAccess.Models;
+using EFCoreDataAccess.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -54,23 +55,39 @@ namespace EFCoreDataAccess.Tests.Infra
 
             company3.SetAddress(bostonAddress.Id);
 
-            company1.AddEmployee(new Employee(
+            var employee1 = new Employee(
                     name: "Shawn Spencer",
                     code: "1111",
                     position: "psychic detective",
-                    birthDate: DateTime.UtcNow.AddYears(-29)));
+                    birthDate: DateTime.UtcNow.AddYears(-29));
 
-            company2.AddEmployee(new Employee(
+            var employeeEarnings1 = new EmployeeEarnings(PaymentPeriodType.Annual);
+            employeeEarnings1.DefineAnnualEarnings(80_000);
+            employee1.DefineEarnings(employeeEarnings1);
+
+            var employee2 = new Employee(
                     name: "Dexer Morgan",
                     code: "0333",
                     position: "Blood Spatter Analyst",
-                    birthDate: DateTime.UtcNow.AddYears(-35)));
+                    birthDate: DateTime.UtcNow.AddYears(-35));
 
-            company3.AddEmployee(new Employee(
+            var employeeEarnings2 = new EmployeeEarnings(PaymentPeriodType.Monthly);
+            employeeEarnings2.DefineMonthlyEarnings(7_000);
+            employee2.DefineEarnings(employeeEarnings2);
+
+            var employee3 = new Employee(
                     name: "Olivia Dunham",
                     code: "0001",
                     position: "FBI Agent III",
-                    birthDate: DateTime.UtcNow.AddYears(-32)));
+                    birthDate: DateTime.UtcNow.AddYears(-32));
+
+            var employeeEarnings3 = new EmployeeEarnings(PaymentPeriodType.Monthly);
+            employeeEarnings3.DefineMonthlyEarnings(12_000);
+            employee3.DefineEarnings(employeeEarnings3);
+
+            company1.AddEmployee(employee1);
+            company2.AddEmployee(employee2);
+            company3.AddEmployee(employee3);
 
             employeeContext.AddRange(new[]
             {

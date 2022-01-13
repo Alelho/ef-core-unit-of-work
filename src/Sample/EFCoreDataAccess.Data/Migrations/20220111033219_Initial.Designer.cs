@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreDataAccess.Data.Migrations
 {
     [DbContext(typeof(EmployeeDbContext))]
-    [Migration("20220110030336_Initial")]
+    [Migration("20220111033219_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,9 @@ namespace EFCoreDataAccess.Data.Migrations
                     b.Property<long>("CompanyId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("EmployeeEarningsId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -108,7 +111,34 @@ namespace EFCoreDataAccess.Data.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("EmployeeEarningsId")
+                        .IsUnique();
+
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("EFCoreDataAccess.Models.EmployeeEarnings", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("AnnualEarnings")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<decimal>("MonthlyEarnings")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("PaymentPeriodType")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeEarnings");
                 });
 
             modelBuilder.Entity("EFCoreDataAccess.Models.Company", b =>
@@ -130,7 +160,15 @@ namespace EFCoreDataAccess.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EFCoreDataAccess.Models.EmployeeEarnings", "EmployeeEarnings")
+                        .WithOne("Employee")
+                        .HasForeignKey("EFCoreDataAccess.Models.Employee", "EmployeeEarningsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Company");
+
+                    b.Navigation("EmployeeEarnings");
                 });
 
             modelBuilder.Entity("EFCoreDataAccess.Models.Address", b =>
@@ -141,6 +179,11 @@ namespace EFCoreDataAccess.Data.Migrations
             modelBuilder.Entity("EFCoreDataAccess.Models.Company", b =>
                 {
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("EFCoreDataAccess.Models.EmployeeEarnings", b =>
+                {
+                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

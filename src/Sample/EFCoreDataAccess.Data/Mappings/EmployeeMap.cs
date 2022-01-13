@@ -30,6 +30,10 @@ namespace EFCoreDataAccess.Data.Mappings
             builder.HasOne(e => e.Company)
                 .WithMany(c => c.Employees)
                 .HasForeignKey(e => e.CompanyId);
+
+            builder.HasOne(e => e.EmployeeEarnings)
+               .WithOne(o => o.Employee)
+               .HasForeignKey<Employee>(e => e.EmployeeEarningsId);
         }
     }
 }

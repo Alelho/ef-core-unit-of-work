@@ -20,12 +20,19 @@ namespace EFCoreDataAccess.Models
         public DateTime BirthDate { get; private set; }
         public long CompanyId { get; private set; }
         public virtual Company Company { get; private set; }
+		public long EmployeeEarningsId { get; private set; }
+		public virtual EmployeeEarnings EmployeeEarnings { get; private set; }
 
-        public void SetCompany(long companyId)
+		public void SetCompany(long companyId)
         {
             if (CompanyId > 0) throw new InvalidOperationException("company registered already");
 
             CompanyId = companyId;
         }
+
+        public void DefineEarnings(EmployeeEarnings employeeEarnings)
+		{
+            EmployeeEarnings = employeeEarnings;
+		}
     }
 }

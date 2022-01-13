@@ -35,6 +35,23 @@ namespace EFCoreDataAccess.Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "EmployeeEarnings",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    AnnualEarnings = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    MonthlyEarnings = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    PaymentPeriodType = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeEarnings", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Companies",
                 columns: table => new
                 {
@@ -69,7 +86,8 @@ namespace EFCoreDataAccess.Data.Migrations
                     Position = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CompanyId = table.Column<long>(type: "bigint", nullable: false)
+                    CompanyId = table.Column<long>(type: "bigint", nullable: false),
+                    EmployeeEarningsId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,6 +96,12 @@ namespace EFCoreDataAccess.Data.Migrations
                         name: "FK_Employees_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employees_EmployeeEarnings_EmployeeEarningsId",
+                        column: x => x.EmployeeEarningsId,
+                        principalTable: "EmployeeEarnings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -93,6 +117,12 @@ namespace EFCoreDataAccess.Data.Migrations
                 name: "IX_Employees_CompanyId",
                 table: "Employees",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_EmployeeEarningsId",
+                table: "Employees",
+                column: "EmployeeEarningsId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -102,6 +132,9 @@ namespace EFCoreDataAccess.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Companies");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeEarnings");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
