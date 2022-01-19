@@ -150,7 +150,7 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
 		{
-			var query = _dbSet.AsQueryable();
+			var query = _dbSet.AsNoTracking().AsQueryable();
 
 			foreach (var include in includeQuery.IncludeQueries)
 			{
@@ -201,6 +201,18 @@ namespace EFCoreDataAccess.Repository
 		{
 			return _dbSet.AsNoTracking()
 				.SingleOrDefault(predicate);
+		}
+
+		public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
+		{
+			var query = _dbSet.AsNoTracking().AsQueryable();
+
+			foreach (var include in includeQuery.IncludeQueries)
+			{
+				query = include(query);
+			}
+
+			return query.SingleOrDefault(predicate);
 		}
 
 		public virtual async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)

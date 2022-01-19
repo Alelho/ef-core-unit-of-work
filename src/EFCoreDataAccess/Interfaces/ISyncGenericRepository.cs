@@ -18,6 +18,7 @@ namespace EFCoreDataAccess.Interfaces
         void RemoveRange(IEnumerable<T> entities);
 
         T SingleOrDefault(Expression<Func<T, bool>> predicate);
+        T SingleOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
         T FirstOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery);
         T LastOrDefault(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> keySelector);

@@ -300,6 +300,34 @@ namespace EFCoreDataAccess.Tests
 		}
 
 		[Fact]
+		public void SingleOrDefault_ShouldReturnAnEntityWithYourChildren_GivenValidEntityId()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+			var validEntity = 2;
+
+			var includeQuery = IncludeQuery<Company>.Builder()
+				.Include(o => o.Include(o => o.Employees).ThenInclude(o => o.EmployeeEarnings))
+				.Include(o => o.Include(o => o.Address));
+
+			// Act
+			var result = companyRepository.SingleOrDefault(c => c.Id == validEntity, includeQuery);
+
+			// Assert
+			using (new AssertionScope())
+			{
+				result.Should().NotBeNull();
+				result.Id.Should().Be(validEntity);
+				result.Address.Should().NotBeNull();
+				result.Employees.Should().NotBeNullOrEmpty();
+				result.Employees.Select(o => o.EmployeeEarnings).Should().NotBeNullOrEmpty();
+			}
+		}
+
+		[Fact]
 		public void Update_ShouldUpdateTheEntity_GivenModifiedEntity()
 		{
 			// Arrange
