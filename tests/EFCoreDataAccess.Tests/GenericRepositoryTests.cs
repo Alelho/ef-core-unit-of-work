@@ -1,8 +1,12 @@
-﻿using EFCoreDataAccess.Data;
+﻿using EFCoreDataAccess.Builders;
+using EFCoreDataAccess.Data;
+using EFCoreDataAccess.Extensions;
 using EFCoreDataAccess.Interfaces;
 using EFCoreDataAccess.Models;
 using EFCoreDataAccess.Tests.Infra;
 using FluentAssertions;
+using FluentAssertions.Execution;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -194,6 +198,31 @@ namespace EFCoreDataAccess.Tests
 			// Assert
 			result.Should().NotBeNull();
 			result.Id.Should().Be(1);
+		}
+
+		[Fact]
+		public void FirstOrDefault_ShouldReturnTheFirstEntityWithYourChildren_GivenTableWithEntities()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			var includeQuery = IncludeQuery<Company>.Builder()
+				.Include(o => o.Include(o => o.Employees).ThenInclude(o => o.EmployeeEarnings))
+				.Include(o => o.Include(o => o.Address));
+
+			// Act
+			var result = companyRepository.FirstOrDefault(c => c.Id > 0, includeQuery);
+
+			// Assert
+			using (new AssertionScope())
+			{
+				result.Address.Should().NotBeNull();
+				result.Employees.Should().NotBeNullOrEmpty();
+				result.Employees.Select(o => o.EmployeeEarnings).Should().NotBeNullOrEmpty();
+			}
 		}
 
 		[Fact]
