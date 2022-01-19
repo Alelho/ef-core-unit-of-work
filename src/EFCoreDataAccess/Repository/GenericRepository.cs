@@ -157,7 +157,7 @@ namespace EFCoreDataAccess.Repository
 				query = include(query);
 			}
 
-			return query.FirstOrDefault();
+			return query.FirstOrDefault(predicate);
 		}
 
 		public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
