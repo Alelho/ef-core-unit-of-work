@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace EFCoreDataAccess.Extensions
 {
-    public static class EnumerableExtensions
+	public static class EnumerableExtensions
     { 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
         {

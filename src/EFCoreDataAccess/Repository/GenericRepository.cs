@@ -1,4 +1,5 @@
-﻿using EFCoreDataAccess.Extensions;
+﻿using EFCoreDataAccess.Builders;
+using EFCoreDataAccess.Extensions;
 using EFCoreDataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -145,6 +146,18 @@ namespace EFCoreDataAccess.Repository
 		{
 			return _dbSet.AsNoTracking()
 				.FirstOrDefault(predicate);
+		}
+
+		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
+		{
+			var query = _dbSet.AsQueryable();
+
+			foreach (var include in includeQuery.IncludeQueries)
+			{
+				query = include(query);
+			}
+
+			return query.FirstOrDefault();
 		}
 
 		public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
