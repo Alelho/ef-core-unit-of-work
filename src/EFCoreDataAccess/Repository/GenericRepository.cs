@@ -186,7 +186,7 @@ namespace EFCoreDataAccess.Repository
 		public virtual async Task<T> LastOrDefaultAsync(
 			Expression<Func<T, bool>> predicate,
 			Expression<Func<T, object>> keySelector,
-			CancellationToken cancellationToken)
+			CancellationToken cancellationToken = default)
 		{
 			return await _dbSet.AsNoTracking()
 				.OrderBy(keySelector)
