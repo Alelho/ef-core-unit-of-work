@@ -138,8 +138,8 @@ namespace EFCoreDataAccess.Repository
 		public virtual async Task<long> CountAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
 		{
 			return predicate == null ?
-				await _dbSet.LongCountAsync() :
-				await _dbSet.LongCountAsync(predicate);
+				await _dbSet.LongCountAsync(cancellationToken) :
+				await _dbSet.LongCountAsync(predicate, cancellationToken);
 		}
 
 		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate)
