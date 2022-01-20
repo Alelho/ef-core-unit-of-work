@@ -152,10 +152,7 @@ namespace EFCoreDataAccess.Repository
 		{
 			var query = _dbSet.AsNoTracking().AsQueryable();
 
-			foreach (var include in includeQuery.IncludeQueries)
-			{
-				query = include(query);
-			}
+			query = AddIncludeQueries(query, includeQuery);
 
 			return query.FirstOrDefault(predicate);
 		}
@@ -183,7 +180,7 @@ namespace EFCoreDataAccess.Repository
 			query = AddIncludeQueries(query, includeQuery);
 
 			return query.OrderBy(keySelector)
-				.LastOrDefault();
+				.LastOrDefault(predicate);
 		}
 
 		public virtual async Task<T> LastOrDefaultAsync(
@@ -220,10 +217,7 @@ namespace EFCoreDataAccess.Repository
 		{
 			var query = _dbSet.AsNoTracking().AsQueryable();
 
-			foreach (var include in includeQuery.IncludeQueries)
-			{
-				query = include(query);
-			}
+			query = AddIncludeQueries(query, includeQuery);
 
 			return query.SingleOrDefault(predicate);
 		}
