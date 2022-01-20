@@ -7,7 +7,7 @@ namespace EFCoreDataAccess.Builders
 {
 	public class IncludeQuery<TEntity>
 	{
-		private ICollection<Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>> _includeQueries;
+		private readonly ICollection<Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>> _includeQueries;
 
 		public IncludeQuery()
 		{
