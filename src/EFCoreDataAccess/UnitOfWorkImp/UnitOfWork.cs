@@ -32,7 +32,7 @@ namespace EFCoreDataAccess.UnitOfWorkImp
                 throw new InvalidOperationException($"Could not create an object from an abstract class");
             }
 
-            return (TRepository)Activator.CreateInstance(repositoryType, (DbContext)DbContext);
+            return (TRepository)Activator.CreateInstance(repositoryType, DbContext);
         }
 
         public IGenericRepository<TEntity> GetGenericRepository<TEntity>() where TEntity : class
