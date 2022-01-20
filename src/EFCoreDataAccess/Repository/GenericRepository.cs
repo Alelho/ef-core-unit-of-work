@@ -124,8 +124,8 @@ namespace EFCoreDataAccess.Repository
 		public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
 		{
 			return predicate == null ?
-				await _dbSet.AnyAsync().ConfigureAwait(continueOnCapturedContext: false) :
-				await _dbSet.AnyAsync(predicate).ConfigureAwait(continueOnCapturedContext: false);
+				await _dbSet.AnyAsync(cancellationToken).ConfigureAwait(continueOnCapturedContext: false) :
+				await _dbSet.AnyAsync(predicate, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
 		}
 
 		public virtual long Count(Expression<Func<T, bool>> predicate = null)
