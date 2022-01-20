@@ -243,6 +243,33 @@ namespace EFCoreDataAccess.Tests
 		}
 
 		[Fact]
+		public void LastOrDefault_ShouldReturnTheLastEntityWithYourChildren_GivenTableWithEntities()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			var includeQuery = IncludeQuery<Company>.Builder()
+				.Include(o => o.Include(o => o.Employees).ThenInclude(o => o.EmployeeEarnings))
+				.Include(o => o.Include(o => o.Address));
+
+			// Act
+			var result = companyRepository.LastOrDefault(c => c.Id > 0, c => c.Id, includeQuery);
+
+			// Assert
+			using (new AssertionScope())
+			{
+				result.Should().NotBeNull();
+				result.Id.Should().BeGreaterThan(1);
+				result.Address.Should().NotBeNull();
+				result.Employees.Should().NotBeNullOrEmpty();
+				result.Employees.Select(o => o.EmployeeEarnings).Should().NotBeNullOrEmpty();
+			}
+		}
+
+		[Fact]
 		public async Task LastOrDefaultAsync_ShouldReturnTheLastEntity_GivenTableWithEntities()
 		{
 			// Arrange

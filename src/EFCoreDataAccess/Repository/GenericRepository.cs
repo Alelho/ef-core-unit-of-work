@@ -173,6 +173,19 @@ namespace EFCoreDataAccess.Repository
 				.LastOrDefault(predicate);
 		}
 
+		public virtual T LastOrDefault(
+			Expression<Func<T, bool>> predicate,
+			Expression<Func<T, object>> keySelector,
+			IncludeQuery<T> includeQuery)
+		{
+			var query = _dbSet.AsNoTracking().AsQueryable();
+
+			query = AddIncludeQueries(query, includeQuery);
+
+			return query.OrderBy(keySelector)
+				.LastOrDefault();
+		}
+
 		public virtual async Task<T> LastOrDefaultAsync(
 			Expression<Func<T, bool>> predicate,
 			Expression<Func<T, object>> keySelector,
@@ -228,6 +241,16 @@ namespace EFCoreDataAccess.Repository
 			if (DbContext.ChangeTracker.AutoDetectChangesEnabled == enabled) return;
 
 			DbContext.ChangeTracker.AutoDetectChangesEnabled = enabled;
+		}
+
+		private static IQueryable<T> AddIncludeQueries(IQueryable<T> query, IncludeQuery<T> includeQuery)
+		{
+			foreach (var include in includeQuery.IncludeQueries)
+			{
+				query = include(query);
+			}
+
+			return query;
 		}
 
 		#region Disposable Members
