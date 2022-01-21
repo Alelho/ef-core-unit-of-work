@@ -22,7 +22,7 @@ namespace EFCoreDataAccess.UnitOfWorkImp
             {
                 if (_transaction == null)
                 {
-                    throw new ArgumentNullException("'Transaction' cannot be null.");
+                    throw new ArgumentNullException("Transaction");
                 }
 
                 _transaction.Commit();

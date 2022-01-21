@@ -27,7 +27,7 @@ namespace EFCoreDataAccess.UnitOfWorkImp
             {
                 if (_transaction == null)
                 {
-                    throw new ArgumentNullException("'Transaction' cannot be null");
+                    throw new ArgumentNullException("Transaction");
                 }
 
                 await _transaction.CommitAsync(cancellationToken)
