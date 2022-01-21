@@ -239,6 +239,18 @@ namespace EFCoreDataAccess.Repository
 				.SingleOrDefaultAsync(predicate, cancellationToken);
 		}
 
+		public virtual async Task<T> SingleOrDefaultAsync(
+			Expression<Func<T, bool>> predicate,
+			IncludeQuery<T> includeQuery,
+			CancellationToken cancellationToken = default)
+		{
+			var query = _dbSet.AsNoTracking().AsQueryable();
+
+			query = AddIncludeQueries(query, includeQuery);
+
+			return await query.SingleOrDefaultAsync(predicate, cancellationToken);
+		}
+
 		#endregion
 
 		private void SetAutoDetectChanges(bool enabled)
