@@ -34,7 +34,8 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
 		{
-			await _dbSet.AddAsync(entity, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+			await _dbSet.AddAsync(entity, cancellationToken)
+				.ConfigureAwait(continueOnCapturedContext: false);
 
 			return entity;
 		}
@@ -46,7 +47,8 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
 		{
-			await _dbSet.AddRangeAsync(entities, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+			await _dbSet.AddRangeAsync(entities, cancellationToken)
+				.ConfigureAwait(continueOnCapturedContext: false);
 		}
 
 		public virtual void Update(T entity, params Expression<Func<T, object>>[] properties)
@@ -135,7 +137,9 @@ namespace EFCoreDataAccess.Repository
 				_dbSet.LongCount(predicate);
 		}
 
-		public virtual async Task<long> CountAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
+		public virtual async Task<long> CountAsync(
+			Expression<Func<T, bool>> predicate = null,
+			CancellationToken cancellationToken = default)
 		{
 			return predicate == null ?
 				await _dbSet.LongCountAsync(cancellationToken) :
@@ -160,7 +164,8 @@ namespace EFCoreDataAccess.Repository
 		public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
 			return await _dbSet.AsNoTracking()
-				.FirstOrDefaultAsync(predicate, cancellationToken);
+				.FirstOrDefaultAsync(predicate, cancellationToken)
+				.ConfigureAwait(continueOnCapturedContext: false);
 		}
 
 		public virtual T LastOrDefault(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> keySelector)
@@ -190,7 +195,8 @@ namespace EFCoreDataAccess.Repository
 		{
 			return await _dbSet.AsNoTracking()
 				.OrderBy(keySelector)
-				.LastOrDefaultAsync(predicate, cancellationToken);
+				.LastOrDefaultAsync(predicate, cancellationToken)
+				.ConfigureAwait(continueOnCapturedContext: false);
 		}
 
 		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)
@@ -215,7 +221,8 @@ namespace EFCoreDataAccess.Repository
 		{
 			return await _dbSet.Where(predicate)
 				.AsNoTracking()
-				.ToListAsync(cancellationToken);
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(continueOnCapturedContext: false);
 		}
 
 		public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate)
@@ -248,7 +255,8 @@ namespace EFCoreDataAccess.Repository
 
 			query = AddIncludeQueries(query, includeQuery);
 
-			return await query.SingleOrDefaultAsync(predicate, cancellationToken);
+			return await query.SingleOrDefaultAsync(predicate, cancellationToken)
+				.ConfigureAwait(continueOnCapturedContext: false);
 		}
 
 		#endregion
