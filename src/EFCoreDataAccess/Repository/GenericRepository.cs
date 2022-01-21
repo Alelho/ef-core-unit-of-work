@@ -123,7 +123,9 @@ namespace EFCoreDataAccess.Repository
 				_dbSet.Any(predicate);
 		}
 
-		public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default)
+		public virtual async Task<bool> AnyAsync(
+			Expression<Func<T, bool>> predicate = null,
+			CancellationToken cancellationToken = default)
 		{
 			return predicate == null ?
 				await _dbSet.AnyAsync(cancellationToken).ConfigureAwait(continueOnCapturedContext: false) :
