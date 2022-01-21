@@ -27,6 +27,7 @@ namespace EFCoreDataAccess.Interfaces
             Expression<Func<T, object>> keySelector,
             IncludeQuery<T> includeQuery);
         IEnumerable<T> Search(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> Search(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery);
         bool Any(Expression<Func<T, bool>> predicate = null);
         long Count(Expression<Func<T, bool>> predicate = null);
 

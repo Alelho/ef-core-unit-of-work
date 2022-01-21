@@ -200,6 +200,17 @@ namespace EFCoreDataAccess.Repository
 				 .ToList();
 		}
 
+		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
+		{
+			var query = _dbSet.AsNoTracking()
+				.AsQueryable();
+
+			query = AddIncludeQueries(query, includeQuery);
+
+			return query.Where(predicate)
+				.ToList();
+		}
+
 		public async virtual Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
 			return await _dbSet.Where(predicate)
