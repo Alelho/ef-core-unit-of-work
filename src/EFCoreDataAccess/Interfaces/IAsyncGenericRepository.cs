@@ -21,7 +21,12 @@ namespace EFCoreDataAccess.Interfaces
 			Expression<Func<T, bool>> predicate,
 			IncludeQuery<T> includeQuery,
 			CancellationToken cancellationToken = default);
-		Task<T> LastOrDefaultAsync(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> keySelector,
+		Task<T> LastOrDefaultAsync(Expression<Func<T, bool>> predicate,
+			Expression<Func<T, object>> keySelector,
+			CancellationToken cancellationToken = default);
+		Task<T> LastOrDefaultAsync(Expression<Func<T, bool>> predicate,
+			Expression<Func<T, object>> keySelector,
+			IncludeQuery<T> includeQuery,
 			CancellationToken cancellationToken = default);
 		Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 		Task<bool> AnyAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default);
