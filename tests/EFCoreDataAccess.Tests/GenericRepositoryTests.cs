@@ -1,6 +1,5 @@
 ﻿using EFCoreDataAccess.Builders;
 using EFCoreDataAccess.Data;
-using EFCoreDataAccess.Extensions;
 using EFCoreDataAccess.Interfaces;
 using EFCoreDataAccess.Models;
 using EFCoreDataAccess.Tests.Infra;
