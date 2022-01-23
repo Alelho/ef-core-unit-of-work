@@ -170,6 +170,19 @@ namespace EFCoreDataAccess.Repository
 				.ConfigureAwait(continueOnCapturedContext: false);
 		}
 
+		public virtual async Task<T> FirstOrDefaultAsync(
+			Expression<Func<T, bool>> predicate,
+			IncludeQuery<T> includeQuery,
+			CancellationToken cancellationToken = default)
+		{
+			var query = _dbSet.AsNoTracking();
+
+			query = AddIncludeQueries(query, includeQuery);
+
+			return await query.FirstOrDefaultAsync(predicate, cancellationToken)
+				.ConfigureAwait(continueOnCapturedContext: false);
+		}
+
 		public virtual T LastOrDefault(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> keySelector)
 		{
 			return _dbSet.AsNoTracking()

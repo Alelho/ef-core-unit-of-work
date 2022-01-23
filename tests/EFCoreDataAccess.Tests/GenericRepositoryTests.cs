@@ -332,6 +332,33 @@ namespace EFCoreDataAccess.Tests
 		}
 
 		[Fact]
+		public async Task FirstOrDefaultAsync_ShouldReturnAnEntityWithYourChildren_GivenValidEntityId()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+			var validEntity = 2;
+
+			var includeQuery = IncludeQuery<Company>.Builder()
+				.Include(o => o.Include(o => o.Employees).ThenInclude(o => o.EmployeeEarnings))
+				.Include(o => o.Include(o => o.Address));
+
+			// Act
+			var entity = await companyRepository.FirstOrDefaultAsync(c => c.Id == validEntity, includeQuery);
+
+			// Assert
+			using (new AssertionScope())
+			{
+				entity.Should().NotBeNull();
+				entity.Address.Should().NotBeNull();
+				entity.Employees.Should().NotBeNullOrEmpty();
+				entity.Employees.Select(o => o.EmployeeEarnings).Should().NotBeNullOrEmpty();
+			}
+		}
+
+		[Fact]
 		public void SingleOrDefault_ShouldReturnAnEntity_GivenValidEntityId()
 		{
 			// Arrange
