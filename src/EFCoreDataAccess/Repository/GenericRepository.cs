@@ -156,7 +156,7 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
 		{
-			var query = _dbSet.AsNoTracking().AsQueryable();
+			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
 
@@ -195,7 +195,7 @@ namespace EFCoreDataAccess.Repository
 			Expression<Func<T, object>> keySelector,
 			IncludeQuery<T> includeQuery)
 		{
-			var query = _dbSet.AsNoTracking().AsQueryable();
+			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
 
@@ -223,8 +223,7 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
 		{
-			var query = _dbSet.AsNoTracking()
-				.AsQueryable();
+			var query = _dbSet.AsQueryable();
 
 			query = AddIncludeQueries(query, includeQuery);
 
@@ -248,7 +247,7 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
 		{
-			var query = _dbSet.AsNoTracking().AsQueryable();
+			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
 
@@ -266,7 +265,7 @@ namespace EFCoreDataAccess.Repository
 			IncludeQuery<T> includeQuery,
 			CancellationToken cancellationToken = default)
 		{
-			var query = _dbSet.AsNoTracking().AsQueryable();
+			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
 
