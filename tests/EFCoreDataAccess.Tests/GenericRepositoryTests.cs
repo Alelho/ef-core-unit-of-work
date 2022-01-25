@@ -200,6 +200,22 @@ namespace EFCoreDataAccess.Tests
 		}
 
 		[Fact]
+		public async Task FirstOrDefaultAsync_ShouldThrowException_GivenNullablePredicate()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Func<Task> func = () => companyRepository.FirstOrDefaultAsync(predicate: null);
+
+			// Assert
+			await func.Should().ThrowAsync<ArgumentNullException>();
+		}
+
+		[Fact]
 		public void FirstOrDefault_ShouldReturnTheFirstEntityWithYourChildren_GivenTableWithEntities()
 		{
 			// Arrange
@@ -225,6 +241,22 @@ namespace EFCoreDataAccess.Tests
 		}
 
 		[Fact]
+		public void FirstOrDefault_ShouldThrowException_GivenNullablePredicate()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Action act = () => companyRepository.FirstOrDefault(predicate: null);
+
+			// Assert
+			act.Should().Throw<ArgumentNullException>();
+		}
+
+		[Fact]
 		public void LastOrDefault_ShouldReturnTheLastEntity_GivenTableWithEntities()
 		{
 			// Arrange
@@ -239,6 +271,38 @@ namespace EFCoreDataAccess.Tests
 			// Assert
 			result.Should().NotBeNull();
 			result.Id.Should().BeGreaterThan(1);
+		}
+
+		[Fact]
+		public void LastOrDefault_ShouldThrowException_GivenNullablePredicate()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Action act = () => companyRepository.LastOrDefault(predicate: null, c => c.Id);
+
+			// Assert
+			act.Should().Throw<ArgumentNullException>();
+		}
+
+		[Fact]
+		public void LastOrDefault_ShouldThrowException_GivenNullableKeySelector()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Action act = () => companyRepository.LastOrDefault(c => c.Id == 1, keySelector: null);
+
+			// Assert
+			act.Should().Throw<ArgumentNullException>();
 		}
 
 		[Fact]
@@ -281,6 +345,38 @@ namespace EFCoreDataAccess.Tests
 			// Assert
 			result.Should().NotBeNull();
 			result.Id.Should().BeGreaterThan(1);
+		}
+
+		[Fact]
+		public async Task LastOrDefaultAsync_ShouldThrowException_GivenNullablePredicate()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Func<Task> func = () => companyRepository.FirstOrDefaultAsync(predicate: null);
+
+			// Assert
+			await func.Should().ThrowAsync<ArgumentNullException>();
+		}
+
+		[Fact]
+		public async Task LastOrDefaultAsync_ShouldThrowException_GivenNullableKeySelector()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Func<Task> func = () => companyRepository.LastOrDefaultAsync(c => c.Id == 1, keySelector: null);
+
+			// Assert
+			await func.Should().ThrowAsync<ArgumentNullException>();
 		}
 
 		[Fact]
@@ -328,6 +424,22 @@ namespace EFCoreDataAccess.Tests
 				entity.Employees.Should().NotBeNullOrEmpty();
 				entity.Employees.Select(o => o.EmployeeEarnings).Should().NotBeNullOrEmpty();
 			}
+		}
+
+		[Fact]
+		public async Task SingleOrDefaultAsync_ShouldThrowException_GivenNullablePredicate()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Func<Task> func = () => companyRepository.SingleOrDefaultAsync(predicate: null);
+
+			// Assert
+			await func.Should().ThrowAsync<ArgumentNullException>();
 		}
 
 		[Fact]
@@ -403,6 +515,22 @@ namespace EFCoreDataAccess.Tests
 				result.Employees.Should().NotBeNullOrEmpty();
 				result.Employees.Select(o => o.EmployeeEarnings).Should().NotBeNullOrEmpty();
 			}
+		}
+
+		[Fact]
+		public void SingleOrDefault_ShouldThrowException_GivenNullablePredicate()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Action act = () => companyRepository.SingleOrDefault(predicate: null);
+
+			// Assert
+			act.Should().Throw<ArgumentNullException>();
 		}
 
 		[Fact]
@@ -482,6 +610,38 @@ namespace EFCoreDataAccess.Tests
 				result.Select(o => o.Employees).Should().NotBeNullOrEmpty();
 				result.Select(o => o.Address).Should().NotBeNull();
 			}
+		}
+
+		[Fact]
+		public void Search_ShouldThrowException_GivenNullablePredicate()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Action act = () => companyRepository.Search(predicate: null);
+
+			// Assert
+			act.Should().Throw<ArgumentNullException>();
+		}
+
+		[Fact]
+		public async Task SearchAsync_ShouldThrowException_GivenNullablePredicate()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			// Act
+			Func<Task> func = () => companyRepository.SearchAsync(predicate: null);
+
+			// Assert
+			await func.Should().ThrowAsync<ArgumentNullException>();
 		}
 
 		[Fact]
