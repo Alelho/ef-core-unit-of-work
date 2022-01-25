@@ -1,5 +1,11 @@
 name: ef-core-unit-of-work
-on: [push]
+on: 
+  push:
+    branches:
+      - 'ef-core-unit-of-work-5'
+  pull_request:
+    branches:
+      - 'ef-core-unit-of-work-5'
 
 jobs:
   build:
@@ -20,10 +26,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.x'
+
     - name: Install dependencies
       run: dotnet restore
+
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
+
     - name: Test
       run: dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutput="results/" /p:CoverletOutputFormat=lcov /p:Exclude="[EFCoreDataAccess.*]*"
     - name: Coveralls
@@ -31,3 +40,22 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: "./tests/EFCoreDataAccess.Tests/results/coverage.info"
+        
+  publish:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: Generate package
+      run: dotnet pack EFCoreUnitOfWork.csproj -c Release -o out
+
+    - name: Push to NuGet
+      run: |
+        cd out
+        dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source ${{ secrets.NUGET_SOURCE }} --skip-duplicate
