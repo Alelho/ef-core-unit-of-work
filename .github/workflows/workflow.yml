@@ -1,5 +1,8 @@
 name: ef-core-unit-of-work
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - 'main'
 
 jobs:
   build:
