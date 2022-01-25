@@ -1,5 +1,5 @@
-﻿using EFCoreDataAccess.Extensions;
-using EFCoreDataAccess.Models;
+﻿using EFCoreDataAccess.Models;
+using EFCoreUnitOfWork.Extensions;
 using FluentAssertions;
 using System;
 using System.Linq.Expressions;

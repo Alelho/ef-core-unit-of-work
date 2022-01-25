@@ -2,7 +2,7 @@
 using System;
 using System.Data;
 
-namespace EFCoreDataAccess.UnitOfWorkImp
+namespace EFCoreUnitOfWork.UnitOfWorkImp
 {
     public partial class UnitOfWork<T>
     {

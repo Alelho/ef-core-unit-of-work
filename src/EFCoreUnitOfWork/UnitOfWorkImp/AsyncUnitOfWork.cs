@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EFCoreDataAccess.UnitOfWorkImp
+namespace EFCoreUnitOfWork.UnitOfWorkImp
 {
     public partial class UnitOfWork<T>
     {

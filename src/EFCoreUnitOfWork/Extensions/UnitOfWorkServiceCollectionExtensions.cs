@@ -1,10 +1,10 @@
-﻿using EFCoreDataAccess.Interfaces;
+﻿using EFCoreUnitOfWork.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using EFCoreDataAccess.UnitOfWorkImp;
+using EFCoreUnitOfWork.UnitOfWorkImp;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreDataAccess.Extensions
+namespace EFCoreUnitOfWork.Extensions
 {
 	public static class UnitOfWorkServiceCollectionExtensions
 	{

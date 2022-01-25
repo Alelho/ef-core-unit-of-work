@@ -1,6 +1,6 @@
-﻿using EFCoreDataAccess.Builders;
-using EFCoreDataAccess.Extensions;
-using EFCoreDataAccess.Interfaces;
+﻿using EFCoreUnitOfWork.Builders;
+using EFCoreUnitOfWork.Extensions;
+using EFCoreUnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EFCoreDataAccess.Repository
+namespace EFCoreUnitOfWork.Repository
 {
 	public class GenericRepository<T> : IGenericRepository<T> where T : class
 	{

@@ -1,7 +1,7 @@
 ﻿using EFCoreDataAccess.Data;
-using EFCoreDataAccess.Interfaces;
 using EFCoreDataAccess.Models;
 using EFCoreDataAccess.Tests.Infra;
+using EFCoreUnitOfWork.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,7 +10,7 @@ using Xunit;
 
 namespace EFCoreDataAccess.Tests
 {
-    [Collection("Database collection")]
+	[Collection("Database collection")]
     public class AsyncUnitOfWorkTests
     {
         private readonly DatabaseFixture _databaseFixture;
