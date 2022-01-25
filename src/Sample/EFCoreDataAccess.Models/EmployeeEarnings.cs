@@ -13,7 +13,6 @@ namespace EFCoreDataAccess.Models
 		public decimal AnnualEarnings { get; private set; }
 		public decimal MonthlyEarnings { get; private set; }
 		public PaymentPeriodType PaymentPeriodType { get; private set; }
-		public virtual Employee Employee { get; private set; }
 
 		public void DefineAnnualEarnings(decimal annualEarnings)
 		{

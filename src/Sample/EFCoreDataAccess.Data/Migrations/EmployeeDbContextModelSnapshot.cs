@@ -142,7 +142,7 @@ namespace EFCoreDataAccess.Data.Migrations
             modelBuilder.Entity("EFCoreDataAccess.Models.Company", b =>
                 {
                     b.HasOne("EFCoreDataAccess.Models.Address", "Address")
-                        .WithOne("Company")
+                        .WithOne()
                         .HasForeignKey("EFCoreDataAccess.Models.Company", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -159,7 +159,7 @@ namespace EFCoreDataAccess.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EFCoreDataAccess.Models.EmployeeEarnings", "EmployeeEarnings")
-                        .WithOne("Employee")
+                        .WithOne()
                         .HasForeignKey("EFCoreDataAccess.Models.Employee", "EmployeeEarningsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -169,19 +169,9 @@ namespace EFCoreDataAccess.Data.Migrations
                     b.Navigation("EmployeeEarnings");
                 });
 
-            modelBuilder.Entity("EFCoreDataAccess.Models.Address", b =>
-                {
-                    b.Navigation("Company");
-                });
-
             modelBuilder.Entity("EFCoreDataAccess.Models.Company", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("EFCoreDataAccess.Models.EmployeeEarnings", b =>
-                {
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

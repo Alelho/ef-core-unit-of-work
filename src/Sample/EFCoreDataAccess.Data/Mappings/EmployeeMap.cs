@@ -32,7 +32,7 @@ namespace EFCoreDataAccess.Data.Mappings
                 .HasForeignKey(e => e.CompanyId);
 
             builder.HasOne(e => e.EmployeeEarnings)
-               .WithOne(o => o.Employee)
+               .WithOne()
                .HasForeignKey<Employee>(e => e.EmployeeEarningsId);
         }
     }
