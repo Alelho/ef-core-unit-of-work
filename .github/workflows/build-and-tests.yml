@@ -1,4 +1,4 @@
-name: ef-core-unit-of-work
+name: build-and-tests
 on:
   push:
     branches-ignore:
