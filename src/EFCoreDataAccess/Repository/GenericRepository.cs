@@ -253,6 +253,20 @@ namespace EFCoreDataAccess.Repository
 				.ConfigureAwait(continueOnCapturedContext: false);
 		}
 
+		public async virtual Task<IEnumerable<T>> SearchAsync(
+			Expression<Func<T, bool>> predicate,
+			IncludeQuery<T> includeQuery,
+			CancellationToken cancellationToken = default)
+		{
+			var query = _dbSet.AsNoTracking();
+
+			query = AddIncludeQueries(query, includeQuery);
+
+			return await query.Where(predicate)
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(continueOnCapturedContext: false);
+		}
+
 		public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate)
 		{
 			return _dbSet.AsNoTracking()

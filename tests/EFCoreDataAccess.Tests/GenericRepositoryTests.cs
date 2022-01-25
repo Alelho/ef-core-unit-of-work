@@ -460,6 +460,33 @@ namespace EFCoreDataAccess.Tests
 		}
 
 		[Fact]
+		public async Task SearchAsync_ShouldReturnTheEntitiesWithTheirChildren_GivenTableWithEntities()
+		{
+			// Arrange
+			using var scope = _databaseFixture.ServiceProvider.CreateScope();
+			var uow = scope.ServiceProvider.GetService<IUnitOfWork<EmployeeDbContext>>();
+
+			var companyRepository = uow.GetGenericRepository<Company>();
+
+			var includeQuery = IncludeQuery<Company>.Builder()
+				.Include(o => o.Include(o => o.Employees).ThenInclude(o => o.EmployeeEarnings))
+				.Include(o => o.Include(o => o.Address));
+
+			// Act
+			var result = await companyRepository.SearchAsync(c => c.Id > 1, includeQuery);
+
+			// Assert
+			using (new AssertionScope())
+			{
+				result.Should().NotBeNull();
+				result.Should().HaveCountGreaterThan(1);
+				result.Select(o => o.Id).Should().OnlyContain(o => o > 1);
+				result.Select(o => o.Employees).Should().NotBeNullOrEmpty();
+				result.Select(o => o.Address).Should().NotBeNull();
+			}
+		}
+
+		[Fact]
 		public void Update_ShouldUpdateTheEntity_GivenModifiedEntity()
 		{
 			// Arrange
