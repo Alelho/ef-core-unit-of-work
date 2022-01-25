@@ -427,8 +427,6 @@ namespace EFCoreDataAccess.Tests
 				result.Should().NotBeNull();
 				result.Id.Should().BeGreaterThan(1);
 				result.Address.Should().NotBeNull();
-				result.Employees.Should().NotBeNullOrEmpty();
-				result.Employees.Select(o => o.EmployeeEarnings).Should().NotBeNullOrEmpty();
 			}
 		}
 
