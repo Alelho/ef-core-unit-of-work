@@ -17,7 +17,7 @@ namespace EFCoreDataAccess.Data.Mappings
                    .HasMaxLength(256);
 
             builder.HasOne(c => c.Address)
-                .WithOne(a => a.Company)
+                .WithOne()
                 .HasForeignKey<Company>(c => c.AddressId);
         }
     }

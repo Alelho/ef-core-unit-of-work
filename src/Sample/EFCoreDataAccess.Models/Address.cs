@@ -19,7 +19,6 @@ namespace EFCoreDataAccess.Models
 		public string State { get; private set; }
 		public string Country { get; private set; }
 		public string PostalCode { get; private set; }
-		public virtual Company Company { get; private set; }
 
 		public void EditAddress(string street, string city, string state, string country, string postalCode)
 		{
