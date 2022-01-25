@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4F76B87C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{1892D551-CE07-467B-A74F-D7D71D2879CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreDataAccess.Tests", "tests\EFCoreDataAccess.Tests\EFCoreDataAccess.Tests.csproj", "{1066A8E3-4270-492C-BE2B-2136F8A931AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreUnitOfWork.Tests", "tests\EFCoreDataAccess.Tests\EFCoreUnitOfWork.Tests.csproj", "{1066A8E3-4270-492C-BE2B-2136F8A931AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{DA40A2C7-B40B-4EE8-8119-8C16A0445BCD}"
 EndProject
