@@ -1,9 +1,11 @@
 ﻿using EFCoreDataAccess.API.Requests;
+using EFCoreDataAccess.Builders;
 using EFCoreDataAccess.Data;
 using EFCoreDataAccess.Data.Repositories;
 using EFCoreDataAccess.Interfaces;
 using EFCoreDataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace EFCoreDataAccess.API.Controllers
@@ -28,7 +30,27 @@ namespace EFCoreDataAccess.API.Controllers
         {
             var repository = _unitOfWork.GetGenericRepository<Company>();
 
-            var company = repository.SingleOrDefault(f => f.Id == companyId);
+            var includeQuery = IncludeQuery<Company>.Builder().Include(c => c.Include(o => o.Address));
+            var company = repository.SingleOrDefault(f => f.Id == companyId, includeQuery);
+
+            if (company == null) return NotFound();
+
+            return Json(company);
+        }
+
+        [HttpGet("{companyId}/employees")]
+        [ProducesResponseType(typeof(Company), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public IActionResult GetCompanyWithEmployees(long companyId)
+        {
+            var repository = _unitOfWork.GetGenericRepository<Company>();
+
+            var includeQuery = IncludeQuery<Company>.Builder()
+                .Include(c => c.Include(o => o.Employees).ThenInclude(o => o.EmployeeEarnings))
+                .Include(c => c.Include(o => o.Address));
+
+            var company = repository.SingleOrDefault(f => f.Id == companyId, includeQuery);
 
             if (company == null) return NotFound();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EFCoreDataAccess.Models.Enums;
+using System;
 
 namespace EFCoreDataAccess.API.Requests
 {
@@ -9,5 +10,7 @@ namespace EFCoreDataAccess.API.Requests
         public string Position { get; set; }
         public DateTime BirthDate { get; set; }
         public long CompanyId { get; set; }
-    }
+		public PaymentPeriodType PaymentPeriodType { get; set; }
+		public decimal MonthlyEarnings { get; set; }
+	}
 }

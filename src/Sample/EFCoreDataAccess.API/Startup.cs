@@ -33,7 +33,9 @@ namespace EFCoreDataAccess.API
 
             services.AddUnitOfWork<EmployeeDbContext>();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EFCoreDataAccess.API", Version = "v1" });
