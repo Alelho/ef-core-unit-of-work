@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EFCoreDataAccess\EFCoreDataAccess.csproj" />
+    <ProjectReference Include="..\..\EFCoreDataAccess\EFCoreUnitOfWork.csproj" />
     <ProjectReference Include="..\EFCoreDataAccess.Data\EFCoreDataAccess.Data.csproj" />
   </ItemGroup>
 

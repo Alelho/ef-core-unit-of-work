@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EFCoreDataAccess\EFCoreDataAccess.csproj" />
+    <ProjectReference Include="..\..\EFCoreDataAccess\EFCoreUnitOfWork.csproj" />
     <ProjectReference Include="..\EFCoreDataAccess.Models\EFCoreDataAccess.Models.csproj" />
   </ItemGroup>
 

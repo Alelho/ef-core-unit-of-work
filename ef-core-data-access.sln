@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreDataAccess", "src\EFCoreDataAccess\EFCoreDataAccess.csproj", "{8C0CA7F2-1C9B-4682-A831-D0BF535C055B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreUnitOfWork", "src\EFCoreDataAccess\EFCoreUnitOfWork.csproj", "{8C0CA7F2-1C9B-4682-A831-D0BF535C055B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4F76B87C-8A44-4775-9BE2-7840AAC7898A}"
 EndProject

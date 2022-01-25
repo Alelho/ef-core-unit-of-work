@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EFCoreDataAccess\EFCoreDataAccess.csproj" />
+    <ProjectReference Include="..\..\EFCoreDataAccess\EFCoreUnitOfWork.csproj" />
   </ItemGroup>
 
 </Project>
