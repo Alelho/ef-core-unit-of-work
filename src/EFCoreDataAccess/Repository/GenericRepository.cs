@@ -74,7 +74,6 @@ namespace EFCoreDataAccess.Repository
 				{
 					DbContext.Entry(entity).Property(property.Name).IsModified = true;
 				}
-
 				else
 				{
 					DbContext.Entry(entity).Property(property.Name).IsModified = false;
@@ -150,12 +149,16 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			return _dbSet.AsNoTracking()
 				.FirstOrDefault(predicate);
 		}
 
 		public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
@@ -165,6 +168,8 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			return await _dbSet.AsNoTracking()
 				.FirstOrDefaultAsync(predicate, cancellationToken)
 				.ConfigureAwait(continueOnCapturedContext: false);
@@ -175,6 +180,8 @@ namespace EFCoreDataAccess.Repository
 			IncludeQuery<T> includeQuery,
 			CancellationToken cancellationToken = default)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
@@ -185,6 +192,8 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual T LastOrDefault(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> keySelector)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			return _dbSet.AsNoTracking()
 				.OrderBy(keySelector)
 				.LastOrDefault(predicate);
@@ -195,6 +204,9 @@ namespace EFCoreDataAccess.Repository
 			Expression<Func<T, object>> keySelector,
 			IncludeQuery<T> includeQuery)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+			if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
+
 			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
@@ -208,6 +220,9 @@ namespace EFCoreDataAccess.Repository
 			Expression<Func<T, object>> keySelector,
 			CancellationToken cancellationToken = default)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+			if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
+
 			return await _dbSet.AsNoTracking()
 				.OrderBy(keySelector)
 				.LastOrDefaultAsync(predicate, cancellationToken)
@@ -219,6 +234,9 @@ namespace EFCoreDataAccess.Repository
 			IncludeQuery<T> includeQuery,
 			CancellationToken cancellationToken = default)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+			if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
+
 			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
@@ -230,6 +248,8 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			return _dbSet.Where(predicate)
 				 .AsNoTracking()
 				 .ToList();
@@ -237,6 +257,8 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual IEnumerable<T> Search(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+			
 			var query = _dbSet.AsQueryable();
 
 			query = AddIncludeQueries(query, includeQuery);
@@ -247,6 +269,8 @@ namespace EFCoreDataAccess.Repository
 
 		public async virtual Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			return await _dbSet.Where(predicate)
 				.AsNoTracking()
 				.ToListAsync(cancellationToken)
@@ -258,6 +282,8 @@ namespace EFCoreDataAccess.Repository
 			IncludeQuery<T> includeQuery,
 			CancellationToken cancellationToken = default)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
@@ -269,12 +295,16 @@ namespace EFCoreDataAccess.Repository
 
 		public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			return _dbSet.AsNoTracking()
 				.SingleOrDefault(predicate);
 		}
 
 		public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
@@ -286,6 +316,8 @@ namespace EFCoreDataAccess.Repository
 			Expression<Func<T, bool>> predicate,
 			CancellationToken cancellationToken = default)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			return await _dbSet.AsNoTracking()
 				.SingleOrDefaultAsync(predicate, cancellationToken);
 		}
@@ -295,6 +327,8 @@ namespace EFCoreDataAccess.Repository
 			IncludeQuery<T> includeQuery,
 			CancellationToken cancellationToken = default)
 		{
+			if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+
 			var query = _dbSet.AsNoTracking();
 
 			query = AddIncludeQueries(query, includeQuery);
@@ -314,6 +348,8 @@ namespace EFCoreDataAccess.Repository
 
 		private static IQueryable<T> AddIncludeQueries(IQueryable<T> query, IncludeQuery<T> includeQuery)
 		{
+			if (includeQuery == null) return query;
+
 			foreach (var include in includeQuery.IncludeQueries)
 			{
 				query = include(query);
