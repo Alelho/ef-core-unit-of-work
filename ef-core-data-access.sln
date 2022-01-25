@@ -15,7 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{DA40
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{B51C24FF-4A93-4919-83CE-80D0795F7E9E}"
 	ProjectSection(SolutionItems) = preProject
-		workflow.yml = workflow.yml
+		.github\workflows\build-and-publish.yml = .github\workflows\build-and-publish.yml
+		.github\workflows\build-and-tests.yml = .github\workflows\build-and-tests.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreDataAccess.Models", "src\Sample\EFCoreDataAccess.Models\EFCoreDataAccess.Models.csproj", "{8EAB87CB-56CE-48FE-90EC-186F622B4CC9}"
