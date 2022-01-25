@@ -2,8 +2,6 @@ name: ef-core-unit-of-work
 on:
   push:
     branches: [ ef-core-unit-of-work-5 ]
-  pull_request:
-    branches: [ ef-core-unit-of-work-5 ]
       
 jobs:     
   publish:
