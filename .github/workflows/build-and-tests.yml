@@ -3,6 +3,9 @@ on:
   push:
     branches-ignore:
       - 'main'
+  pull_request:
+    branches-ignore:
+      - 'main'
 
 jobs:
   build:
@@ -23,10 +26,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.x'
+
     - name: Install dependencies
       run: dotnet restore
+
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
+
     - name: Test
       run: dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutput="results/" /p:CoverletOutputFormat=lcov /p:Exclude="[EFCoreDataAccess.*]*"
     - name: Coveralls
