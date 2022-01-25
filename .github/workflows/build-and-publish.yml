@@ -21,7 +21,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Generate package
-      run: dotnet pack EFCoreUnitOfWork.csproj -c Release -o out
+      run: dotnet pack src/EFCoreUnitOfWork/EFCoreUnitOfWork.csproj -c Release -o out
 
     - name: Push to NuGet
       run: |
