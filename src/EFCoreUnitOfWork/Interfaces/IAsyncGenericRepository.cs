@@ -1,11 +1,11 @@
-﻿using EFCoreDataAccess.Builders;
+﻿using EFCoreUnitOfWork.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EFCoreDataAccess.Interfaces
+namespace EFCoreUnitOfWork.Interfaces
 {
 	public interface IAsyncGenericRepository<T> : IGenericRepository where T : class
 	{

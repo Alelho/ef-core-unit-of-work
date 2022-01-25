@@ -1,10 +1,10 @@
 ﻿using EFCoreDataAccess.Data;
 using EFCoreDataAccess.Data.Repositories;
-using EFCoreDataAccess.Interfaces;
 using EFCoreDataAccess.Models;
 using EFCoreDataAccess.Models.Interface;
-using EFCoreDataAccess.Repository;
 using EFCoreDataAccess.Tests.Infra;
+using EFCoreUnitOfWork.Interfaces;
+using EFCoreUnitOfWork.Repository;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +13,7 @@ using Xunit;
 
 namespace EFCoreDataAccess.Tests
 {
-    [Collection("Database collection")]
+	[Collection("Database collection")]
     public class UnitOfWorkTests
     {
         private readonly DatabaseFixture _databaseFixture;

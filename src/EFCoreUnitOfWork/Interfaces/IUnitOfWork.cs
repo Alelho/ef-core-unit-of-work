@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 
-namespace EFCoreDataAccess.Interfaces
+namespace EFCoreUnitOfWork.Interfaces
 {
     public interface IUnitOfWork<T> : ISyncUnitOfWork<T>, IAsyncUnitOfWork<T>, IDisposable where T : DbContext
     {

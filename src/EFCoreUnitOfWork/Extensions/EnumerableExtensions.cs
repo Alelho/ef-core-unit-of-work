@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace EFCoreDataAccess.Extensions
+namespace EFCoreUnitOfWork.Extensions
 {
 	public static class EnumerableExtensions
     { 

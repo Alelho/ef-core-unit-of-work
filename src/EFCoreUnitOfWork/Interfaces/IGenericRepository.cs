@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EFCoreDataAccess.Interfaces
+namespace EFCoreUnitOfWork.Interfaces
 {
 	public interface IGenericRepository : IDisposable
     { }

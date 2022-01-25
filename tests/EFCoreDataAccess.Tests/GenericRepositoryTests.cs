@@ -1,8 +1,8 @@
-﻿using EFCoreDataAccess.Builders;
-using EFCoreDataAccess.Data;
-using EFCoreDataAccess.Interfaces;
+﻿using EFCoreDataAccess.Data;
 using EFCoreDataAccess.Models;
 using EFCoreDataAccess.Tests.Infra;
+using EFCoreUnitOfWork.Builders;
+using EFCoreUnitOfWork.Interfaces;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.EntityFrameworkCore;

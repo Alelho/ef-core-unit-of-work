@@ -1,12 +1,12 @@
-﻿using EFCoreDataAccess.Interfaces;
-using EFCoreDataAccess.Repository;
+﻿using EFCoreUnitOfWork.Interfaces;
+using EFCoreUnitOfWork.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 
-namespace EFCoreDataAccess.UnitOfWorkImp
+namespace EFCoreUnitOfWork.UnitOfWorkImp
 {
-    public partial class UnitOfWork<T> : IUnitOfWork<T> where T : DbContext
+	public partial class UnitOfWork<T> : IUnitOfWork<T> where T : DbContext
     {
         private IDbContextTransaction _transaction;
 

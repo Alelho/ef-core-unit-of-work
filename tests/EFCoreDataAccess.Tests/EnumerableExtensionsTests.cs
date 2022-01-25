@@ -1,4 +1,4 @@
-﻿using EFCoreDataAccess.Extensions;
+﻿using EFCoreUnitOfWork.Extensions;
 using FluentAssertions;
 using System.Collections.Generic;
 using Xunit;

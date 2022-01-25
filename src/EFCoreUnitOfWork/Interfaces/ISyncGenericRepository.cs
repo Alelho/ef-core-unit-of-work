@@ -1,13 +1,11 @@
-﻿using EFCoreDataAccess.Builders;
-using EFCoreDataAccess.Extensions;
+﻿using EFCoreUnitOfWork.Builders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
-namespace EFCoreDataAccess.Interfaces
+namespace EFCoreUnitOfWork.Interfaces
 {
-    public interface ISyncGenericRepository<T> : IGenericRepository where T : class
+	public interface ISyncGenericRepository<T> : IGenericRepository where T : class
     {
         T Add(T entity);
         void AddRange(IEnumerable<T> entities);

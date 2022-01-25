@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\EFCoreDataAccess\EFCoreUnitOfWork.csproj" />
     <ProjectReference Include="..\..\src\Sample\EFCoreDataAccess.Data\EFCoreDataAccess.Data.csproj" />
     <ProjectReference Include="..\..\src\Sample\EFCoreDataAccess.Models\EFCoreDataAccess.Models.csproj" />
   </ItemGroup>

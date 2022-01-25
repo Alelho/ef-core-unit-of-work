@@ -1,8 +1,8 @@
-﻿using EFCoreDataAccess.Interfaces;
+﻿using EFCoreUnitOfWork.Interfaces;
 
 namespace EFCoreDataAccess.Models.Interface
 {
-    public interface IAddressRepository : IGenericRepository<Address>
+	public interface IAddressRepository : IGenericRepository<Address>
     {
     }
 }

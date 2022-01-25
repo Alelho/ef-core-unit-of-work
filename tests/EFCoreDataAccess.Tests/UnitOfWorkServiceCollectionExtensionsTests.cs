@@ -1,6 +1,6 @@
 ﻿using EFCoreDataAccess.Data;
-using EFCoreDataAccess.Extensions;
-using EFCoreDataAccess.Interfaces;
+using EFCoreUnitOfWork.Extensions;
+using EFCoreUnitOfWork.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,7 +9,7 @@ using Xunit;
 
 namespace EFCoreDataAccess.Tests
 {
-    public class UnitOfWorkServiceCollectionExtensionsTests
+	public class UnitOfWorkServiceCollectionExtensionsTests
     {
         [Fact]
         public void AddUnitOfWork_ShouldThrowNullException_NullableServiceCollection()

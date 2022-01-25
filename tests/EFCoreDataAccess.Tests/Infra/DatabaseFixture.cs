@@ -1,5 +1,5 @@
 ﻿using EFCoreDataAccess.Data;
-using EFCoreDataAccess.Extensions;
+using EFCoreUnitOfWork.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace EFCoreDataAccess.Tests.Infra
 {
-    public class DatabaseFixture : IDisposable
+	public class DatabaseFixture : IDisposable
     {
         public DatabaseFixture()
         {

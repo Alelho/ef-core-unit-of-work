@@ -1,16 +1,15 @@
 ﻿using EFCoreDataAccess.API.Requests;
 using EFCoreDataAccess.Data;
-using EFCoreDataAccess.Interfaces;
 using EFCoreDataAccess.Models;
+using EFCoreUnitOfWork.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text.Json;
 
 namespace EFCoreDataAccess.API.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("[controller]")]
     public class EmployeesController : Controller
     {

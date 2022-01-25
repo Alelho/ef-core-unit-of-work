@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EFCoreDataAccess.Builders
+namespace EFCoreUnitOfWork.Builders
 {
 	public class IncludeQuery<TEntity>
 	{

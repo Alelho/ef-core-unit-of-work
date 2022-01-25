@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace EFCoreDataAccess.Interfaces
+namespace EFCoreUnitOfWork.Interfaces
 {
     public interface ISyncUnitOfWork<T> where T : DbContext
     {

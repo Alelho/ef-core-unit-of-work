@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace EFCoreDataAccess.Extensions
+namespace EFCoreUnitOfWork.Extensions
 {
 	public static class ExpressionFuncExtensions
 	{
