@@ -1,7 +1,7 @@
 name: build-and-publish
 on:
   push:
-    branches: [ ef-core-unit-of-work-5 ]
+    branches: [ main ]
       
 jobs:     
   publish:

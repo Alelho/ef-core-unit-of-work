@@ -1,8 +1,6 @@
 name: build-and-tests
 on:
   push:
-    branches-ignore:
-      - 'main'
 
 jobs:
   build:
