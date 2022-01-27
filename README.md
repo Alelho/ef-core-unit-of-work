@@ -18,3 +18,12 @@ This is an implementation of the following patterns, unit of work and generic re
 ## Give a star! :star:
 
 If you liked it or if this project helped you in any way, please give a star. Thanks!
+
+## How to install
+The package is available on the NuGet gallery. Run the command below to install in your project:
+
+```
+Install-Package EFCoreUnitOfWork -Version 5.0.0
+```
+
+## How to use
