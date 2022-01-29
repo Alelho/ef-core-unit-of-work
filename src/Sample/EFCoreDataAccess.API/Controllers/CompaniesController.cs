@@ -28,9 +28,13 @@ namespace EFCoreDataAccess.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public IActionResult GetCompany(long companyId)
         {
+            // Should using the unit of work to get the generic repository
             var repository = _unitOfWork.GetGenericRepository<Company>();
 
-            var includeQuery = IncludeQuery<Company>.Builder().Include(c => c.Include(o => o.Address));
+            // Use 'IncludeQuery' to include child data in the query
+            var includeQuery = IncludeQuery<Company>.Builder()
+                .Include(c => c.Include(o => o.Address));
+
             var company = repository.SingleOrDefault(f => f.Id == companyId, includeQuery);
 
             if (company == null) return NotFound();
@@ -46,6 +50,7 @@ namespace EFCoreDataAccess.API.Controllers
         {
             var repository = _unitOfWork.GetGenericRepository<Company>();
 
+            // Multiples inclusions
             var includeQuery = IncludeQuery<Company>.Builder()
                 .Include(c => c.Include(o => o.Employees).ThenInclude(o => o.EmployeeEarnings))
                 .Include(c => c.Include(o => o.Address));

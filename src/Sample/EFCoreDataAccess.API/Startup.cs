@@ -26,11 +26,14 @@ namespace EFCoreDataAccess.API
         {
             var connectionString = @"Server=localhost;Database=EFCoreUnitOfWork;Uid=root;Pwd=123456;";
 
+            // Register DbContext into DI container
+            // It can use SQL Server, PostgreSQL instead of MySQL
             services.AddDbContext<EmployeeDbContext>(options =>
                 options.UseMySql(connectionString, serverVersion: ServerVersion.AutoDetect(connectionString))
-                .LogTo(msg => Debug.WriteLine(msg), LogLevel.Error)
-                .EnableSensitiveDataLogging());
+                .LogTo(msg => Debug.WriteLine(msg), LogLevel.Error));
 
+            // Add unit of work into DI container.
+            // This is an exetensions from the EfCoreUnitOfWork package
             services.AddUnitOfWork<EmployeeDbContext>();
 
             services.AddControllers()
