@@ -27,3 +27,62 @@ Install-Package EFCoreUnitOfWork -Version 5.0.0
 ```
 
 ## How to use
+After package installation, register the DbContext into the DI container and call the extension method 'AddUnitOfWork' to register the unit of work.
+
+````csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    var connectionString = @"Server=localhost;Database=EFCoreUnitOfWork;Uid=root;Pwd=123456;";
+
+    // Register DbContext into DI container
+    // It can use SQL Server, PostgreSQL instead of MySQL
+    services.AddDbContext<EmployeeDbContext>(options =>
+        options.UseMySql(connectionString, serverVersion: ServerVersion.AutoDetect(connectionString))
+        .LogTo(msg => Debug.WriteLine(msg), LogLevel.Error));
+
+    // Add unit of work into DI container.
+    // This is an exetensions from the EfCoreUnitOfWork package
+    services.AddUnitOfWork<EmployeeDbContext>();
+}
+````
+
+After the register and building of the DI container, the `UnitOfWork` can be injected into the constructors. In the below example, the `UnitOfWork` is injected into a controller.
+
+````csharp
+public class CompaniesController : Controller
+{
+    private IUnitOfWork<EmployeeDbContext> _unitOfWork;
+
+    public CompaniesController(
+        IUnitOfWork<EmployeeDbContext> unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    [HttpGet("")]
+    [ProducesResponseType(typeof(Company), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public IActionResult GetCompany(long companyId)
+    {
+        // Should using the unit of work to get the generic repository
+        var repository = _unitOfWork.GetGenericRepository<Company>();
+
+        // Use 'IncludeQuery' to include child data in the query
+        var includeQuery = IncludeQuery<Company>.Builder()
+            .Include(c => c.Include(o => o.Address));
+
+        var company = repository.SingleOrDefault(f => f.Id == companyId, includeQuery);
+
+        if (company == null) return NotFound();
+
+        return Json(company);
+     }
+}
+````
+
+
+
+
+
+
