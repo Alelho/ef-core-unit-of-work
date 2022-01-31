@@ -81,7 +81,24 @@ public class CompaniesController : Controller
 }
 ````
 
+Use the unit of work instance to get the repositories. The package provides a generic repository with some methods implemented.
+````csharp
+var repository = _unitOfWork.GetGenericRepository<Company>();
+````
 
+The below code get a custom repository
+````csharp
+public class AddressRepository : GenericRepository<Address>, IAddressRepository
+{
+    public AddressRepository(DbContext dbContext)
+        : base(dbContext)
+    { }
+}
+````
+````csharp
+var addressRepository = _unitOfWork.GetRepository<AddressRepository>();
+````
+> A custom repository can be created, inheriting or not from the 'Generic Repository', but the custom repository must have a constructor that injects only a DbContext. For the next version, the package will support creating a custom repository with N dependencies.
 
 
 
