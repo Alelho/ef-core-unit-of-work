@@ -100,6 +100,30 @@ var addressRepository = _unitOfWork.GetRepository<AddressRepository>();
 ````
 > A custom repository can be created, inheriting or not from the 'Generic Repository', but the custom repository must have a constructor that injects only a DbContext. For the next version, the package will support creating a custom repository with N dependencies.
 
+## List of operations
+````csharp
+T Add(T entity);
+void AddRange(IEnumerable<T> entities);
+void Update(T entity, params Expression<Func<T, object>>[] properties);
+void UpdateRange(IEnumerable<T> entities);
+void RemoveByEntity(T entity);
+void RemoveSingle(Expression<Func<T, bool>> predicate);
+void RemoveRange(IEnumerable<T> entities);
 
+T SingleOrDefault(Expression<Func<T, bool>> predicate);
+T SingleOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery);
+T FirstOrDefault(Expression<Func<T, bool>> predicate);
+T FirstOrDefault(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery);
+T LastOrDefault(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> keySelector);
+T LastOrDefault(
+    Expression<Func<T, bool>> predicate,
+    Expression<Func<T, object>> keySelector,
+    IncludeQuery<T> includeQuery);
+IEnumerable<T> Search(Expression<Func<T, bool>> predicate);
+IEnumerable<T> Search(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery);
+bool Any(Expression<Func<T, bool>> predicate = null);
+long Count(Expression<Func<T, bool>> predicate = null);
+````
+> Most of these operations have an async version
 
 
