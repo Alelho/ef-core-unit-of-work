@@ -27,7 +27,7 @@ Install-Package EFCoreUnitOfWork -Version 5.0.0
 ```
 
 ## How to use
-After package installation, register the DbContext into the DI container and call the extension method 'AddUnitOfWork' to register the unit of work.
+After the package installation, register the DbContext into the DI container and call the extension method 'AddUnitOfWork' to register the unit of work.
 
 ````csharp
 public void ConfigureServices(IServiceCollection services)
@@ -100,7 +100,7 @@ var addressRepository = _unitOfWork.GetRepository<AddressRepository>();
 ````
 > A custom repository can be created, inheriting or not from the 'Generic Repository', but the custom repository must have a constructor that injects only a DbContext. For the next version, the package will support creating a custom repository with N dependencies.
 
-## List of operations
+### List of operations
 ````csharp
 T Add(T entity);
 void AddRange(IEnumerable<T> entities);
@@ -126,4 +126,47 @@ long Count(Expression<Func<T, bool>> predicate = null);
 ````
 > Most of these operations have an async version
 
+### Unit of Work
+The following example demonstrates how to start a transaction and run several operations and in the end commit all operations together into the database. If anything got wrong, all operations are undone through the Rollback method.
 
+````csharp
+[HttpPost("")]
+[ProducesResponseType((int)HttpStatusCode.OK)]
+[ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+public IActionResult CreateCompany([FromBody] CreateCompanyRequest request)
+{
+    // Initiate a new transaction
+    _unitOfWork.BeginTransaction();
+
+    var companyRepository = _unitOfWork.GetGenericRepository<Company>();
+    var addressRepository = _unitOfWork.GetRepository<AddressRepository>();
+
+    var address = new Address(request.Street, request.City, request.State, request.Country, request.PostalCode);
+
+    addressRepository.Add(address);
+
+    // Keep the add operation above in memory during the transaction scope
+    _unitOfWork.SaveChanges();
+
+    var company = new Company(request.CompanyName);
+    company.SetAddress(address.Id);
+
+    companyRepository.Add(company);
+
+    _unitOfWork.SaveChanges();
+
+    // Commit all changes into the database
+    _unitOfWork.Commit();
+
+    return Ok();
+}
+````
+
+The `UnitOfWork` has the following operations:
+````csharp
+void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
+void Rollback();
+void Commit();
+int SaveChanges(bool acceptAllChangesOnSuccess = true);
+````
+> Those operations have an async version
