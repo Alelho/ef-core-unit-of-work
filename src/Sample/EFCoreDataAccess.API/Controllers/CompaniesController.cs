@@ -67,6 +67,7 @@ namespace EFCoreDataAccess.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public IActionResult CreateCompany([FromBody] CreateCompanyRequest request)
         {
+            // Initiate a new transaction
             _unitOfWork.BeginTransaction();
 
             var companyRepository = _unitOfWork.GetGenericRepository<Company>();
@@ -76,6 +77,7 @@ namespace EFCoreDataAccess.API.Controllers
 
             addressRepository.Add(address);
 
+            // Keep the add operation above in memory during the transaction scope
             _unitOfWork.SaveChanges();
 
             var company = new Company(request.CompanyName);
@@ -85,6 +87,7 @@ namespace EFCoreDataAccess.API.Controllers
 
             _unitOfWork.SaveChanges();
 
+            // Commit all changes into the database
             _unitOfWork.Commit();
 
             return Ok();
