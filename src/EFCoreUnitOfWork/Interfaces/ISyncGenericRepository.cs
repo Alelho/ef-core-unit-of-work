@@ -28,6 +28,5 @@ namespace EFCoreUnitOfWork.Interfaces
         IEnumerable<T> Search(Expression<Func<T, bool>> predicate, IncludeQuery<T> includeQuery);
         bool Any(Expression<Func<T, bool>> predicate = null);
         long Count(Expression<Func<T, bool>> predicate = null);
-
     }
 }
