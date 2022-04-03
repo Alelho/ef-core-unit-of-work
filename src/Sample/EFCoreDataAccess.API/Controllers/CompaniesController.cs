@@ -68,7 +68,7 @@ namespace EFCoreDataAccess.API.Controllers
         public IActionResult CreateCompany([FromBody] CreateCompanyRequest request)
         {
             // Initiate a new transaction
-            _unitOfWork.BeginTransaction();
+            _unitOfWork.BeginTransaction(isolationLevel: System.Data.IsolationLevel.ReadCommitted);
 
             var companyRepository = _unitOfWork.GetGenericRepository<Company>();
             var addressRepository = _unitOfWork.GetRepository<AddressRepository>();
@@ -87,8 +87,16 @@ namespace EFCoreDataAccess.API.Controllers
 
             _unitOfWork.SaveChanges();
 
-            // Commit all changes into the database
-            _unitOfWork.Commit();
+			try
+			{
+                // Commit all changes into the database
+                _unitOfWork.Commit();
+            }
+			catch
+			{
+                // Rollback all changes
+                _unitOfWork.Rollback();
+			}
 
             return Ok();
         }
