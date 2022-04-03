@@ -87,16 +87,8 @@ namespace EFCoreDataAccess.API.Controllers
 
 			_unitOfWork.SaveChanges();
 
-			try
-			{
-				// Commit all changes into the database
-				_unitOfWork.Commit();
-			}
-			catch
-			{
-				// Rollback all changes
-				_unitOfWork.Rollback();
-			}
+			// Commit all changes into the database
+			_unitOfWork.Commit();
 
 			return Ok();
 		}
