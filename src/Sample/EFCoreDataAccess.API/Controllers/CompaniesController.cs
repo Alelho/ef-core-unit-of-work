@@ -22,7 +22,7 @@ namespace EFCoreDataAccess.API.Controllers
 			_unitOfWork = unitOfWork;
 		}
 
-		[HttpGet("")]
+		[HttpGet("{companyId}")]
 		[ProducesResponseType(typeof(Company), (int)HttpStatusCode.OK)]
 		[ProducesResponseType((int)HttpStatusCode.NotFound)]
 		[ProducesResponseType((int)HttpStatusCode.InternalServerError)]
