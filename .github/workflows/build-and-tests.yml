@@ -1,6 +1,5 @@
 name: build-and-tests
-on:
-  push:
+on: [push, fork]
 
 jobs:
   build:
