@@ -8,7 +8,18 @@ namespace EFCoreUnitOfWork.Extensions
 	{
 		public static PropertyInfo GetPropertyInfo<TSource, TProperty>(this Expression<Func<TSource, TProperty>> expression)
 		{
-			var memberExpression = expression.Body as MemberExpression;
+			MemberExpression memberExpression;
+
+			switch (expression.Body.NodeType)
+			{
+				case ExpressionType.Convert:
+				case ExpressionType.ConvertChecked:
+					memberExpression = ((UnaryExpression)expression.Body)?.Operand as MemberExpression;
+					break;
+				default:
+					memberExpression = expression.Body as MemberExpression;
+					break;
+			}
 
 			if (memberExpression == null)
 			{
