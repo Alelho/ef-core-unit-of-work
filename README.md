@@ -23,7 +23,7 @@ If you liked it or if this project helped you in any way, please give a star. Th
 The package is available on the NuGet gallery. Run the command below to install in your project:
 
 ```
-Install-Package EFCoreUnitOfWork -Version 5.0.0
+Install-Package EFCoreUnitOfWork -Version 5.0.1
 ```
 
 ## How to use
