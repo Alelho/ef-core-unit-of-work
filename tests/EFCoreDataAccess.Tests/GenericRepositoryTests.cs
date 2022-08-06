@@ -57,7 +57,6 @@ namespace EFCoreDataAccess.Tests
 
 			// Act
 			addressRepository.AddRange(listOfAddresses);
-			uow.SaveChanges();
 
 			// Assert
 			var companiesStored = addressRepository.Search(c => listOfAddresses.Select(o => o.Id).Contains(c.Id));
@@ -97,7 +96,6 @@ namespace EFCoreDataAccess.Tests
 
 			// Act
 			await addressRepository.AddRangeAsync(listOfAddresses);
-			await uow.SaveChangesAsync();
 
 			// Assert
 			var companiesStored = await addressRepository.SearchAsync(c => listOfAddresses.Select(o => o.Id).Contains(c.Id));
@@ -661,7 +659,6 @@ namespace EFCoreDataAccess.Tests
 				postalCode: "11333");
 
 			addressRepository.Add(address);
-			uow.SaveChanges();
 
 			address.EditAddress(
 				street: address.Street,
@@ -672,7 +669,6 @@ namespace EFCoreDataAccess.Tests
 
 			// Act
 			addressRepository.Update(address);
-			uow.SaveChanges();
 
 			// Assert
 			var editedAddress = addressRepository.SingleOrDefault(a => a.Id == address.Id);
@@ -697,7 +693,6 @@ namespace EFCoreDataAccess.Tests
 				postalCode: "99009900");
 
 			addressRepository.Add(address);
-			uow.SaveChanges();
 
 			var newCity = "São Paulo";
 			var newState = "SP";
@@ -713,7 +708,6 @@ namespace EFCoreDataAccess.Tests
 
 			// Act
 			addressRepository.Update(address, o => o.City, o => o.State);
-			uow.SaveChanges();
 
 			// Assert
 			var modifiedAddress = addressRepository.SingleOrDefault(a => a.Id == address.Id);
@@ -745,7 +739,6 @@ namespace EFCoreDataAccess.Tests
 				postalCode: "656565");
 
 			addressRepository.AddRange(new[] { copacabaAddress, stewartAddress });
-			uow.SaveChanges();
 
 			copacabaAddress.EditAddress(
 				copacabaAddress.Street,
@@ -763,7 +756,6 @@ namespace EFCoreDataAccess.Tests
 
 			// Act
 			addressRepository.UpdateRange(new[] { copacabaAddress, stewartAddress });
-			uow.SaveChanges();
 
 			// Assert
 			var copacabaModifiedAddress = addressRepository.SingleOrDefault(a => a.Id == copacabaAddress.Id);
@@ -790,13 +782,11 @@ namespace EFCoreDataAccess.Tests
 				postalCode: "3333333");
 
 			addressRepository.Add(addressToRemove);
-			uow.SaveChanges();
 
 			var addressToRemoveId = addressToRemove.Id;
 
 			// Act
 			addressRepository.RemoveByEntity(addressToRemove);
-			uow.SaveChanges();
 
 			// Assert
 			var removedAddress = addressRepository.SingleOrDefault(a => a.Id == addressToRemoveId);
@@ -821,13 +811,11 @@ namespace EFCoreDataAccess.Tests
 				postalCode: "3333333");
 
 			addressRepository.Add(addressToRemove);
-			uow.SaveChanges();
 
 			var addressToRemoveId = addressToRemove.Id;
 
 			// Act
 			addressRepository.RemoveSingle(a => a.Id == addressToRemoveId);
-			uow.SaveChanges();
 
 			// Assert
 			var removedAddress = addressRepository.SingleOrDefault(a => a.Id == addressToRemoveId);
@@ -859,13 +847,11 @@ namespace EFCoreDataAccess.Tests
 				postalCode: "4444444");
 
 			addressRepository.AddRange(new[] { addressToRemove1, addressToRemove2 });
-			uow.SaveChanges();
 
 			var addressToRemoveIds = new[] { addressToRemove1.Id, addressToRemove2.Id };
 
 			// Act
 			addressRepository.RemoveRange(new[] { addressToRemove1, addressToRemove2 });
-			uow.SaveChanges();
 
 			// Assert
 			var removedAddresses = addressRepository.Search(a => addressToRemoveIds.Contains(a.Id));
