@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/Alelho/ef-core-unit-of-work</RepositoryUrl>
     <PackageTags>EntityFrameworkCore;EntityFramework;EFCore;Entity;UnitOfWork;UoW;Repository;GenericRepository;O/RM</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>5.0.1</Version>
+    <Version>6.0.0</Version>
 	<LangVersion>latest</LangVersion>
 	<Description>This package provides the implementations of the unit of work and the generic repository patterns.</Description>
   </PropertyGroup>
