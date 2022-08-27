@@ -66,8 +66,6 @@ namespace EFCoreDataAccess.API.Controllers
 
            employeeRepository.Add(employee);
 
-            _unitOfWork.SaveChanges();
-
             return Ok();
         }
     }

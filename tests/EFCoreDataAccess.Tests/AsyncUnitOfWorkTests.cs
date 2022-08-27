@@ -72,13 +72,11 @@ namespace EFCoreDataAccess.Tests
                 postalCode: "132456");
 
             addressRepository.Add(address);
-            uow.SaveChanges();
 
             var disneyCompany = new Company(name: "Disney");
             disneyCompany.SetAddress(address.Id);
 
             disneyCompany = await companyRepository.AddAsync(disneyCompany);
-            await uow.SaveChangesAsync();
 
             // Act
             await uow.CommitAsync();
@@ -108,13 +106,11 @@ namespace EFCoreDataAccess.Tests
                 postalCode: "132456");
 
             addressRepository.Add(address);
-            uow.SaveChanges();
 
             var disneyCompany = new Company(name: "Disney");
             disneyCompany.SetAddress(address.Id);
 
             disneyCompany = await companyRepository.AddAsync(disneyCompany);
-            await uow.SaveChangesAsync();
 
             // Act
             await uow.RollbackAsync();

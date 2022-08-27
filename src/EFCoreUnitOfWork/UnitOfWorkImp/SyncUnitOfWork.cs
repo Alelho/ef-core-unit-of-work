@@ -46,17 +46,5 @@ namespace EFCoreUnitOfWork.UnitOfWorkImp
 
             }
         }
-
-        public int SaveChanges(bool acceptAllChangesOnSuccess = true)
-        {
-            try
-            {
-                return DbContext.SaveChanges(acceptAllChangesOnSuccess);
-            }
-            catch
-            {
-                throw;
-            }
-        }
     }
 }
