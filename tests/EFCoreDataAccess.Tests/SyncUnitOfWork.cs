@@ -71,13 +71,11 @@ namespace EFCoreDataAccess.Tests
                 postalCode: "132456");
 
             addressRepository.Add(address);
-            uow.SaveChanges();
 
             var disneyCompany = new Company(name: "Disney");
             disneyCompany.SetAddress(address.Id);
 
             disneyCompany = companyRepository.Add(disneyCompany);
-            uow.SaveChanges();
 
             // Act
             uow.Commit();
@@ -107,13 +105,10 @@ namespace EFCoreDataAccess.Tests
                 postalCode: "132456");
 
             addressRepository.Add(address);
-            uow.SaveChanges();
 
             var disneyCompany = new Company(name: "Disney");
             disneyCompany.SetAddress(address.Id);
             disneyCompany = companyRepository.Add(disneyCompany);
-
-            uow.SaveChanges();
 
             // Act
             uow.Rollback();

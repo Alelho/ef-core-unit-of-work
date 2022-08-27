@@ -75,17 +75,14 @@ namespace EFCoreDataAccess.API.Controllers
 
 			var address = new Address(request.Street, request.City, request.State, request.Country, request.PostalCode);
 
-			addressRepository.Add(address);
-
 			// Keep the add operation above in memory during the transaction scope
-			_unitOfWork.SaveChanges();
+			addressRepository.Add(address);
 
 			var company = new Company(request.CompanyName);
 			company.SetAddress(address.Id);
 
+			// Keep the add operation above in memory during the transaction scope
 			companyRepository.Add(company);
-
-			_unitOfWork.SaveChanges();
 
 			// Commit all changes into the database
 			_unitOfWork.Commit();

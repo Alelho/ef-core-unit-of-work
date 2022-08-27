@@ -29,6 +29,8 @@ namespace EFCoreUnitOfWork.Repository
 		{
 			_dbSet.Add(entity);
 
+			SaveChanges();
+
 			return entity;
 		}
 
@@ -37,18 +39,24 @@ namespace EFCoreUnitOfWork.Repository
 			await _dbSet.AddAsync(entity, cancellationToken)
 				.ConfigureAwait(continueOnCapturedContext: false);
 
+			await SaveChangesAsync(cancellationToken: cancellationToken);
+
 			return entity;
 		}
 
 		public virtual void AddRange(IEnumerable<T> entities)
 		{
 			_dbSet.AddRange(entities);
+
+			SaveChanges();
 		}
 
 		public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
 		{
 			await _dbSet.AddRangeAsync(entities, cancellationToken)
 				.ConfigureAwait(continueOnCapturedContext: false);
+
+			await SaveChangesAsync(cancellationToken: cancellationToken);
 		}
 
 		public virtual void Update(T entity, params Expression<Func<T, object>>[] properties)
@@ -56,6 +64,9 @@ namespace EFCoreUnitOfWork.Repository
 			if (properties.IsNullOrEmpty())
 			{
 				_dbSet.Update(entity);
+
+				SaveChanges();
+
 				return;
 			}
 
@@ -81,6 +92,8 @@ namespace EFCoreUnitOfWork.Repository
 			}
 
 			SetAutoDetectChanges(originalAutoDetectChangesValue);
+
+			SaveChanges();
 		}
 
 		public virtual void UpdateRange(IEnumerable<T> entities)
@@ -88,11 +101,15 @@ namespace EFCoreUnitOfWork.Repository
 			if (entities.IsNullOrEmpty()) return;
 
 			_dbSet.UpdateRange(entities);
+
+			SaveChanges();
 		}
 
 		public virtual void RemoveByEntity(T entity)
 		{
 			_dbSet.Remove(entity);
+
+			SaveChanges();
 		}
 
 		public virtual void RemoveSingle(Expression<Func<T, bool>> predicate)
@@ -102,6 +119,8 @@ namespace EFCoreUnitOfWork.Repository
 			if (entity == null) throw new InvalidOperationException($"Entity not found!");
 
 			_dbSet.Remove(entity);
+
+			SaveChanges();
 		}
 
 		public virtual void RemoveRange(IEnumerable<T> entities)
@@ -109,6 +128,8 @@ namespace EFCoreUnitOfWork.Repository
 			if (entities.IsNullOrEmpty()) return;
 
 			_dbSet.RemoveRange(entities);
+
+			SaveChanges();
 		}
 
 		#endregion
@@ -335,6 +356,33 @@ namespace EFCoreUnitOfWork.Repository
 
 			return await query.SingleOrDefaultAsync(predicate, cancellationToken)
 				.ConfigureAwait(continueOnCapturedContext: false);
+		}
+
+		public virtual int SaveChanges(bool acceptAllChangesOnSuccess = true)
+		{
+			try
+			{
+				return DbContext.SaveChanges(acceptAllChangesOnSuccess);
+			}
+			catch
+			{
+				throw;
+			}
+		}
+
+		public virtual async Task<int> SaveChangesAsync(
+			bool acceptAllChangesOnSuccess = true,
+			CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				return await DbContext.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken)
+					.ConfigureAwait(continueOnCapturedContext: false);
+			}
+			catch
+			{
+				throw;
+			}
 		}
 
 		#endregion
