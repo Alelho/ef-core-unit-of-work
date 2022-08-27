@@ -35,5 +35,6 @@ namespace EFCoreUnitOfWork.Interfaces
 			CancellationToken cancellationToken = default);
 		Task<bool> AnyAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default);
 		Task<long> CountAsync(Expression<Func<T, bool>> predicate = null, CancellationToken cancellationToken = default);
+		Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess = true, CancellationToken cancellationToken = default);
 	}
 }

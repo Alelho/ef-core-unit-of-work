@@ -56,20 +56,5 @@ namespace EFCoreUnitOfWork.UnitOfWorkImp
                 throw;
             }
         }
-
-        public async Task<int> SaveChangesAsync(
-            bool acceptAllChangesOnSuccess = true, 
-            CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await DbContext.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken)
-                    .ConfigureAwait(continueOnCapturedContext: false);
-            }
-            catch
-            {
-                throw;
-            }
-        }
     }
 }

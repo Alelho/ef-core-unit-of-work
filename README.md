@@ -11,7 +11,7 @@ This is an implementation of the following patterns, unit of work and generic re
 
 | Package | .NET Core | NuGet |
 |---|---|---|
-| EfCoreUnitOfWork | 5.x.x | ![Nuget](https://img.shields.io/nuget/v/EFCoreUnitOfWork) |
+| EfCoreUnitOfWork | 6.x.x | ![Nuget](https://img.shields.io/nuget/v/EFCoreUnitOfWork) |
 
 ---
 
@@ -23,7 +23,7 @@ If you liked it or if this project helped you in any way, please give a star. Th
 The package is available on the NuGet gallery. Run the command below to install in your project:
 
 ```
-Install-Package EFCoreUnitOfWork -Version 5.0.1
+Install-Package EFCoreUnitOfWork -Version 6.0.0
 ```
 
 ## How to use
@@ -143,17 +143,14 @@ public IActionResult CreateCompany([FromBody] CreateCompanyRequest request)
 
     var address = new Address(request.Street, request.City, request.State, request.Country, request.PostalCode);
 
+    // Keep the add operation in memory during the transaction scope
     addressRepository.Add(address);
-
-    // Keep the add operation above in memory during the transaction scope
-    _unitOfWork.SaveChanges();
 
     var company = new Company(request.CompanyName);
     company.SetAddress(address.Id);
 
+     // Keep this operation in memory during the transaction scope
     companyRepository.Add(company);
-
-    _unitOfWork.SaveChanges();
 
     // Commit all changes into the database
     _unitOfWork.Commit();

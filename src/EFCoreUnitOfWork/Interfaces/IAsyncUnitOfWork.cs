@@ -12,6 +12,5 @@ namespace EFCoreUnitOfWork.Interfaces
             CancellationToken cancellationToken = default);
         Task RollbackAsync(CancellationToken cancellationToken = default);
         Task CommitAsync(CancellationToken cancellationToken = default);
-        Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess = true, CancellationToken cancellationToken = default);
     }
 }

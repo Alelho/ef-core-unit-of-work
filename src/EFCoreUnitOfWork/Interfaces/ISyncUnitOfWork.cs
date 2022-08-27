@@ -8,6 +8,5 @@ namespace EFCoreUnitOfWork.Interfaces
         void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
         void Rollback();
         void Commit();
-        int SaveChanges(bool acceptAllChangesOnSuccess = true);
     }
 }

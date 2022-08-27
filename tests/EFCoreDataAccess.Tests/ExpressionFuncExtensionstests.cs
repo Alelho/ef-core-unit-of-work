@@ -52,10 +52,10 @@ namespace EFCoreDataAccess.Tests
             // Assert
             using (new AssertionScope())
             {
-                nameExpressionResult.Should().Equals(expectedNameResult);
-                birthDateExprssionResult.Should().Equals(expectedBirthDateResult);
-                companyIdExprssionResult.Should().Equals(expectedCompanyIdResult);
-                paymentPeriodExprssionResult.Should().Equals(expectedPaymentPeriodResult);
+                nameExpressionResult.Should().BeSameAs(expectedNameResult);
+                birthDateExprssionResult.Should().BeSameAs(expectedBirthDateResult);
+                companyIdExprssionResult.Should().BeSameAs(expectedCompanyIdResult);
+                paymentPeriodExprssionResult.Should().BeSameAs(expectedPaymentPeriodResult);
             }
         }
     }
