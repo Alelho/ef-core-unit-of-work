@@ -4,14 +4,10 @@ This is an implementation of the following patterns, unit of work and generic re
 
 ---
 
-| Package | .NET Core | NuGet |
+| Package | .NET Core | Branch | NuGet |
 |---|---|---|
-| EfCoreUnitOfWork | 6.x.x | ![Nuget](https://img.shields.io/nuget/v/EFCoreUnitOfWork) |
-| EfCoreUnitOfWork | 7.x.x (coming soon!) |  |
-
-[EF Core Unit of Work 6.x.x](https://github.com/Alelho/ef-core-unit-of-work/tree/ef-core-net-6)
-
-[EF Core Unit of Work 7.x.x](https://github.com/Alelho/ef-core-unit-of-work/tree/ef-core-net-7)
+| EfCoreUnitOfWork | 6.x.x | [Code](https://github.com/Alelho/ef-core-unit-of-work/tree/ef-core-net-6) | ![Nuget](https://img.shields.io/nuget/v/EFCoreUnitOfWork) |
+| EfCoreUnitOfWork | 7.x.x | [Code](https://github.com/Alelho/ef-core-unit-of-work/tree/ef-core-net-7) | (coming soon!) |
 
 ---
 
