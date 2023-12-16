@@ -1,8 +1,8 @@
 ﻿using EFCoreUnitOfWork.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using EFCoreUnitOfWork.UnitOfWorkImp;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace EFCoreUnitOfWork.Extensions
 {
