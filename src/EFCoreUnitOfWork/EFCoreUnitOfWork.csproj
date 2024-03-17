@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Alelho;AC Technology</Authors>
     <PackageProjectUrl>https://github.com/Alelho/ef-core-unit-of-work</PackageProjectUrl>
@@ -15,8 +15,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.16" />
   </ItemGroup>
 
 </Project>

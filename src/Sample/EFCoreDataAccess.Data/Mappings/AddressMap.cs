@@ -9,7 +9,7 @@ namespace EFCoreDataAccess.Data.Mappings
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.ToTable("Addresses");
-
+            
             builder.HasKey(o => o.Id);
 
             builder.Property(o => o.State)

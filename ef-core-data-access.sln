@@ -25,6 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreDataAccess.API", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCoreUnitOfWork", "src\EFCoreUnitOfWork\EFCoreUnitOfWork.csproj", "{BABC98F0-B85E-4635-A34D-51BA7F3C0542}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FB5252DA-1CF0-45AE-9D19-4C243DA8D800}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
