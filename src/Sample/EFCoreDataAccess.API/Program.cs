@@ -1,14 +1,14 @@
-using EFCoreDataAccess.API;
+using EFCoreDataAccess.API.Configurations;
 using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var startup = new Startup(builder.Configuration);
-
-startup.ConfigureServices(builder.Services);
+builder.Services.AddApi();
+builder.Services.AddDatabase();
 
 var app = builder.Build();
 
-startup.Configure(app, app.Environment);
+Api.ConfigureApi(app, app.Environment);
+Database.ConfigureDatabase(app);
 
 app.Run();
